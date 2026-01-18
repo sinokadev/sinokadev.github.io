@@ -1,0 +1,7 @@
+baseURL = "https://nokull.github.io/"
+title = "노카의 이모저모"
+theme = "nokull"
+languageCode = "ko-kr" 
+
+[params]
+  description = "헛소리 모음집"
