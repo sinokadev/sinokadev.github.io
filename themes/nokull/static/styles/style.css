@@ -1,0 +1,106 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+
+:root {
+  --text-color: #363636;
+  --link-color: #535353;
+  --link-hover-color: #7e7e7e;
+  --bg-color: #f5f5f5;
+}
+
+body {
+    margin-top: 20px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    text-align: center;
+    font-family: Pretendard, ui-sans-serif, sans-serif, system-ui, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+a {
+    color: var(--link-color);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+a:hover {
+    color: var(--link-hover-color);
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  white-space: nowrap;
+  width: 40vw;
+  margin: 0 auto 30px;
+}
+
+nav p {
+    font-weight: 500;
+}
+
+#link {
+  display: flex;
+}
+
+#link a {
+  padding: 20px;
+}
+
+
+h1 {
+    margin-top: 30px;
+    font-weight: 600;
+}
+
+ul,
+ol {
+  list-style: none;
+  padding-left: 0;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid #ddd;
+  margin: 24px 0;
+}
+
+
+ul a {
+    font-size: 2em;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+#content {
+    width: 40vw;
+    margin: 50px auto;
+    text-align: left;
+    
+}
+
+#title {
+  display: flex;
+  align-items: flex-end;
+  
+}
+
+#title h1 {
+  margin-bottom: 0;
+  margin-top: 0;
+  margin-right: 10px;
+}
+
+#title p {
+  margin-left: 10px;
+  margin-bottom: 0;
+  align-self: center;
+  margin-top: 0;
+}
+
+
+.divider {
+  width: 2px;
+  height: 2.4em;
+  background: currentColor; /* 글자색 따라감 */
+  margin: 0 10px 0 10px;
+}

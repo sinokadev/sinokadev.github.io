@@ -1,0 +1,7 @@
+{{ define "main" }}
+<h1>{{ .Title }}</h1>
+<p id="time">{{ time.Format "2006. 1. 2. 03:04 PM" .PublishDate }}</p>
+<div>{{ .Content }}</div>
+
+
+{{ end }}

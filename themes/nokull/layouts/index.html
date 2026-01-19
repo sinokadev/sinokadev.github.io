@@ -1,0 +1,31 @@
+{{ define "main" }}
+
+<div id="title">
+  <h1>{{ .Site.Title }}</h1>
+  <span class="divider"></span>
+  <p>{{ .Site.Params.description }}</p>
+</div>
+
+<hr>
+
+<p>{{ .Site.Params.description | replace "\n" "<br>" | safeHTML }}</p>
+
+<hr>
+
+<h2>최근 글</h2>
+
+<ul>
+  {{ $posts := where .Site.RegularPages "Section" "posts" }}
+  {{ range first 2 ($posts.ByPublishDate.Reverse) }}
+    <li>
+      <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+      <p>{{ .Content | plainify | truncate 200 }}</p>
+    </li>
+  {{ end }}
+</ul>
+
+<a href="/posts/">더보기...</a>
+
+<hr>
+
+{{ end }}
