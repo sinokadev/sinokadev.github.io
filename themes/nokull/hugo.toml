@@ -1,6 +1,0 @@
-name = "nokull"
-description = "Minimal Hugo theme for blog"
-license = "MIT"
-
-[min_version]
-hugo = "0.154.5"
