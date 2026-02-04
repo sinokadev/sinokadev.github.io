@@ -18,7 +18,12 @@ const posts = (await getCollection('blog')).sort(
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 		<style>
 			main {
-				width: 960px;
+					/* 고정 너비 대신 최대 너비를 지정하고 100%를 줘서 반응형으로 대응 */
+					width: 100%;
+					max-width: 960px;
+					margin: 0 auto;
+					padding: 0 20px; /* 양옆에 여백을 줘서 글자가 화면 끝에 붙지 않게 함 */
+					box-sizing: border-box; /* 패딩이 너비에 포함되도록 설정 */
 			}
 			ul {
 				display: flex;
@@ -30,6 +35,7 @@ const posts = (await getCollection('blog')).sort(
 			}
 			ul li {
 				width: calc(50% - 1rem);
+				text-align: center;
 			}
 			ul li * {
 				text-decoration: none;
@@ -51,6 +57,8 @@ const posts = (await getCollection('blog')).sort(
 				margin: 0;
 				color: rgb(var(--black));
 				line-height: 1;
+				word-break: keep-all; /* 한글 단어가 어색하게 잘리지 않게 함 */
+        		overflow-wrap: break-word; /* 너무 긴 영어 단어는 줄바꿈 */
 			}
 			.date {
 				margin: 0;
@@ -63,19 +71,18 @@ const posts = (await getCollection('blog')).sort(
 			ul a:hover img {
 				box-shadow: var(--box-shadow);
 			}
-			@media (max-width: 720px) {
+		@media (max-width: 720px) {
+				main {
+					padding: 0 16px; /* 모바일 전용 여백 */
+				}
 				ul {
-					gap: 0.5em;
+					gap: 1.5rem;
 				}
 				ul li {
-					width: 100%;
-					text-align: center;
+					width: 100%; /* 모바일에선 한 줄에 하나씩 */
 				}
-				ul li:first-child {
-					margin-bottom: 0;
-				}
-				ul li:first-child .title {
-					font-size: 1.563em;
+				.title {
+					font-size: 1.2rem; /* 모바일에서 제목이 너무 크면 줄바꿈이 심해지니 조절 */
 				}
 			}
 		</style>
