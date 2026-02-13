@@ -24,16 +24,6 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 				margin-bottom: 2rem; /* 본문과의 간격 */
 				
 			}
-
-			.hero-image img {
-				margin: auto;
-				display: block;
-				width: 90%;      /* 부모 너비(800px 박스)를 꽉 채움 */
-				height: auto;     /* 가로에 맞춰서 세로 비율을 원본 그대로 유지 */
-				
-				border-radius: 12px;
-				box-shadow: var(--box-shadow);
-			}
 			.prose {
 				width: 720px;
 				max-width: calc(100% - 2em);
