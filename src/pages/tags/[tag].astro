@@ -61,7 +61,7 @@ const pageTitle = `#${tag} 포스트 | ${SITE_TITLE}`;
 				font-weight: bold;
 			}
 			ul li a:hover {
-				color: #0070f3;
+				color: #949494;
 			}
 			.date {
 				color: #666;
@@ -78,7 +78,7 @@ const pageTitle = `#${tag} 포스트 | ${SITE_TITLE}`;
 			<ul>
 				{sortedPosts.map((post) => (
 					<li>
-						<a href={`/blog/${post.slug}/`}>{post.data.title}</a>
+						<a href={`/blog/${post.id}/`}>{post.data.title}</a>
 						<div class="date">
 							{post.data.pubDate.toLocaleDateString('ko-KR', {
 								year: 'numeric',
