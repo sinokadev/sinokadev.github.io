@@ -3,18 +3,53 @@ import { type CollectionEntry, getCollection, render } from 'astro:content';
 import BlogPost from '../../layouts/BlogPost.astro';
 
 export async function getStaticPaths() {
-	const posts = await getCollection('blog');
-	return posts.map((post) => ({
-		params: { slug: post.id },
-		props: post,
-	}));
+    const posts = await getCollection('blog');
+    return posts.map((post) => ({
+        params: { slug: post.id },
+        props: post,
+    }));
 }
 type Props = CollectionEntry<'blog'>;
 
 const post = Astro.props;
 const { Content, remarkPluginFrontmatter } = await render(post);
+
+// 현재 포스트의 태그 가져오기 (없을 경우를 대비해 빈 배열 기본값 설정)
+const { tags = [] } = post.data;
 ---
 
 <BlogPost {...post.data} minutesRead={remarkPluginFrontmatter.minutesRead}>
-	<Content />
+    {tags.length > 0 && (
+        <div class="post-tags">
+            {tags.map((tag) => (
+                <a href={`/tags/${tag}`} class="tag">
+                    #{tag}
+                </a>
+            ))}
+        </div>
+    )}
+
+    <Content />
 </BlogPost>
+
+<style>
+    .post-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1rem; /* 본문과 간격 조절 */
+    }
+    .tag {
+        background-color: #f0f0f0;
+        padding: 0.2rem 0.7rem;
+        border-radius: 4px;
+        font-size: 0.85rem;
+        color: #444;
+        text-decoration: none;
+        transition: background 0.2s;
+    }
+    .tag:hover {
+        background-color: #e0e0e0;
+        color: #000;
+    }
+</style>
