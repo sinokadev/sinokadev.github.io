@@ -11,6 +11,9 @@ import rehypeKatex from 'rehype-katex';
 import rehypePrettyCode from 'rehype-pretty-code';
 import { remarkReadingTime } from './src/lib/remark-reading-time.mjs';
 
+import { defineConfig } from "astro/config";
+import pagefind from "astro-pagefind";
+
 export default defineConfig({
   site: 'https://sinoka.dev',
 
@@ -47,6 +50,7 @@ export default defineConfig({
           }
         ]
       ]
-    })
+    }),
+    pagefind()
   ]
 });
