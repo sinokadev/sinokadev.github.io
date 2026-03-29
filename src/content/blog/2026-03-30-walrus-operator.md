@@ -39,7 +39,7 @@ if (n := len(a)) > 10:
 ```
 <small>출처: https://docs.python.org/ko/3.13/whatsnew/3.8.html</small>
 
-더 자세한 예시는 [Python Docs](https://docs.python.org/ko/3.13/whatsnew/3.8.html)와 [PEP 572 문서](https://peps.python.org/pep-0572/)를 참고하십시오.
+더 자세한 예시는 [Python Docs](https://docs.python.org/ko/3.13/whatsnew/3.8.html#assignment-expressions)와 [PEP 572 문서](https://peps.python.org/pep-0572/)를 참고하십시오.
 
 ---
 
