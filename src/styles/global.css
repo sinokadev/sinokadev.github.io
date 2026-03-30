@@ -66,13 +66,15 @@ pre {
 img, image {
   margin: auto;
   display: block;
-  width: 95%;      /* 부모 너비(800px 박스)를 꽉 채움 */
-  height: auto;     /* 가로에 맞춰서 세로 비율을 원본 그대로 유지 */
+  
+  /* 핵심 수정 부분 */
+  width: auto;          /* 이미지의 원래 너비를 기본으로 함 */
+  max-width: 95%;      /* 부모 너비의 95%를 넘지 않도록 제한 */
+  height: auto;         /* 비율 유지 */
   
   border-radius: 12px;
   box-shadow: var(--box-shadow);
 }
-
 small {
   display: block;
   text-align: center;

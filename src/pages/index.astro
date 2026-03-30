@@ -3,6 +3,9 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+
+import { Image } from 'astro:assets';
+import myHeroImage from '../assets/IMG_0340.png';
 ---
 
 <!doctype html>
@@ -23,7 +26,14 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 				이곳에선 저의 생각이나, 번역이나, 일상 이야기, 코딩에 관한 이야기를 찾아볼 수 있습니다!
 			</p>
 			
-			<img src="/images/IMG_0340.png" alt="눈덮인 산과 집들">
+			<Image 
+				src={myHeroImage} 
+				width={1920}
+				format="webp"
+				alt="눈덮인 산과 집들"
+				loading="eager"
+				fetchpriority="high"
+			/>
 		</main>
 		</div>
 		<Footer />
