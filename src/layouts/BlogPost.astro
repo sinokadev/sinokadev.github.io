@@ -1,10 +1,8 @@
 ---
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
-import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
-import Header from '../components/Header.astro';
+import Layout from './Layout.astro';
 import "katex/dist/katex.min.css";
 
 type Props = CollectionEntry<'blog'>['data'] & { minutesRead?: string };
@@ -12,104 +10,93 @@ type Props = CollectionEntry<'blog'>['data'] & { minutesRead?: string };
 const { title, description, pubDate, updatedDate, heroImage, minutesRead } = Astro.props;
 ---
 
-<html lang="ko">
-	<head>
-		<BaseHead title={title} description={description} />
-		<style>
-			main {
-				width: calc(100% - 2em);
-				max-width: 100%;
-			}
-			.hero-image {
-				width: 100%;
-				margin-bottom: 2rem; /* 본문과의 간격 */
-				
-			}
-			.prose {
-				width: 720px;
-				max-width: calc(100% - 2em);
-				margin: auto;
-				padding: 1em;
-				color: rgb(var(--gray-dark));
-			}
-			.title {
-				margin-bottom: 1em;
-				padding: 1em 0;
-				line-height: 1;
-			}
-			.title h1 {
-				margin: 0 0 0.5em 0;
-			}
-			.date {
-				margin-bottom: 0.5em;
-				color: rgb(var(--gray));
-			}
-			.last-updated-on {
-				font-style: italic;
-			}
+<Layout title={title} description={description}>
+	<style slot="head">
+		main {
+			width: calc(100% - 2em);
+			max-width: 100%;
+		}
+		.hero-image {
+			width: 100%;
+			margin-bottom: 2rem; /* 본문과의 간격 */
+			
+		}
+		.prose {
+			width: 720px;
+			max-width: calc(100% - 2em);
+			margin: auto;
+			padding: 1em;
+			color: rgb(var(--gray-dark));
+		}
+		.title {
+			margin-bottom: 1em;
+			padding: 1em 0;
+			line-height: 1;
+		}
+		.title h1 {
+			margin: 0 0 0.5em 0;
+		}
+		.date {
+			margin-bottom: 0.5em;
+			color: rgb(var(--gray));
+		}
+		.last-updated-on {
+			font-style: italic;
+		}
 
-			hr {
-				border: 0;
-				border-top: 2px solid rgb(180, 180, 180);
-				margin: 2rem 0;
-				width: 50%;
-				margin: 0;
-			}
-		</style>
-	</head>
+		hr {
+			border: 0;
+			border-top: 2px solid rgb(180, 180, 180);
+			margin: 2rem 0;
+			width: 50%;
+			margin: 0;
+		}
+	</style>
 
-	<body>
-		<div class="wrapper">
-		<Header />
-		<main>
-			<article>
-				<div class="hero-image">
-					{heroImage && <Image width={1020} height={510} src={heroImage} alt="" />}
-				</div>
-				<div class="prose">
-					<div class="title">
-						<div class="date">
-							<div class="date-container">
-								<FormattedDate date={pubDate} />
-								{minutesRead && (
-									<>
-										<span class="separator">•</span>
-										<span>{minutesRead}</span>
-									</>
-								)}
-							</div>
-							{
-								updatedDate && (
-									<div class="last-updated-on">
-										Last updated on <FormattedDate date={updatedDate} />
-									</div>
-								)
-							}
-						</div>
-						<h1>{title}</h1>
-						<hr />
-					</div>
-					<slot />
-					<script src="https://giscus.app/client.js"
-							data-repo="sinokadev/blog-giscus"
-							data-repo-id="R_kgDORKSjOA"
-							data-category="General"
-							data-category-id="DIC_kwDORKSjOM4C1-ky"
-							data-mapping="url"
-							data-strict="0"
-							data-reactions-enabled="1"
-							data-emit-metadata="0"
-							data-input-position="bottom"
-							data-theme="light"
-							data-lang="ko"
-							data-loading="lazy"
-							crossorigin="anonymous"
-							async>
-					</script>
-				</div>
-			</article>
-		</main>
+	<article>
+		<div class="hero-image">
+			{heroImage && <Image width={1020} height={510} src={heroImage} alt="" />}
 		</div>
-		<Footer />
-	</body>
-</html>
+		<div class="prose">
+			<div class="title">
+				<div class="date">
+					<div class="date-container">
+						<FormattedDate date={pubDate} />
+						{minutesRead && (
+							<>
+								<span class="separator">•</span>
+								<span>{minutesRead}</span>
+							</>
+						)}
+					</div>
+					{
+						updatedDate && (
+							<div class="last-updated-on">
+								Last updated on <FormattedDate date={updatedDate} />
+							</div>
+						)
+					}
+				</div>
+				<h1>{title}</h1>
+				<hr />
+			</div>
+			<slot />
+			<script src="https://giscus.app/client.js"
+					data-repo="sinokadev/blog-giscus"
+					data-repo-id="R_kgDORKSjOA"
+					data-category="General"
+					data-category-id="DIC_kwDORKSjOM4C1-ky"
+					data-mapping="url"
+					data-strict="0"
+					data-reactions-enabled="1"
+					data-emit-metadata="0"
+					data-input-position="bottom"
+					data-theme="light"
+					data-lang="ko"
+					data-loading="lazy"
+					crossorigin="anonymous"
+					async>
+			</script>
+		</div>
+	</article>
+</Layout>

@@ -1,14 +1,12 @@
 ---
 import { getCollection } from 'astro:content';
-import BaseHead from '../../components/BaseHead.astro';
-import Header from '../../components/Header.astro';
-import Footer from '../../components/Footer.astro';
-import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
+import { SITE_TITLE } from '../../consts';
+import Layout from '../../layouts/Layout.astro';
 
 // 1. 모든 태그에 대한 정적 경로 생성
 export async function getStaticPaths() {
   const allPosts = await getCollection('blog');
-  
+
   // 모든 포스트에서 중복 없는 태그 목록 추출
   const uniqueTags = [...new Set(allPosts.map((post) => post.data.tags).flat().filter(tag => tag))];
 
@@ -34,64 +32,49 @@ const sortedPosts = posts.sort(
 const pageTitle = `#${tag} 포스트 | ${SITE_TITLE}`;
 ---
 
-<!doctype html>
-<html lang="ko">
-	<head>
-		<BaseHead title={pageTitle} description={`${tag} 태그와 관련된 글 목록입니다.`} />
-		<style>
-			main {
-				width: 960px;
-				max-width: calc(100% - 2em);
-				margin: auto;
-				padding: 3em 1em;
-			}
-			ul {
-				list-style-type: none;
-				padding: 0;
-			}
-			ul li {
-				margin-bottom: 1.5rem;
-				border-bottom: 1px solid #e0e0e0;
-				padding-bottom: 1rem;
-			}
-			ul li a {
-				text-decoration: none;
-				color: #333;
-				font-size: 1.25rem;
-				font-weight: bold;
-			}
-			ul li a:hover {
-				color: #949494;
-			}
-			.date {
-				color: #666;
-				font-size: 0.9rem;
-				margin-top: 0.5rem;
-			}
-		</style>
-	</head>
-	<body>
-		<Header />
-		<main>
-			<h1>#{tag} 태그가 달린 글</h1>
-			
-			<ul>
-				{sortedPosts.map((post) => (
-					<li>
-						<a href={`/blog/${post.id}/`}>{post.data.title}</a>
-						<div class="date">
-							{post.data.pubDate.toLocaleDateString('ko-KR', {
-								year: 'numeric',
-								month: 'long',
-								day: 'numeric',
-							})}
-						</div>
-					</li>
-				))}
-			</ul>
-			
-			<a href="/tags/">모든 태그 보기</a>
-		</main>
-		<Footer />
-	</body>
-</html>
+<Layout title={pageTitle} description={`${tag} 태그와 관련된 글 목록입니다.`}>
+	<style slot="head">
+		ul {
+			list-style-type: none;
+			padding: 0;
+		}
+		ul li {
+			margin-bottom: 1.5rem;
+			border-bottom: 1px solid #e0e0e0;
+			padding-bottom: 1rem;
+		}
+		ul li a {
+			text-decoration: none;
+			color: #333;
+			font-size: 1.25rem;
+			font-weight: bold;
+		}
+		ul li a:hover {
+			color: #949494;
+		}
+		.date {
+			color: #666;
+			font-size: 0.9rem;
+			margin-top: 0.5rem;
+		}
+	</style>
+
+	<h1>#{tag} 태그가 달린 글</h1>
+
+	<ul>
+		{sortedPosts.map((post) => (
+			<li>
+				<a href={`/blog/${post.id}/`}>{post.data.title}</a>
+				<div class="date">
+					{post.data.pubDate.toLocaleDateString('ko-KR', {
+						year: 'numeric',
+						month: 'long',
+						day: 'numeric',
+					})}
+				</div>
+			</li>
+		))}
+	</ul>
+
+	<a href="/tags/">모든 태그 보기</a>
+</Layout>

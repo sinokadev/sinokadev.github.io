@@ -1,9 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
-import BaseHead from '../../components/BaseHead.astro';
-import Header from '../../components/Header.astro';
-import Footer from '../../components/Footer.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
+import Layout from '../../layouts/Layout.astro';
 
 // 1. 'blog' 컬렉션에서 모든 포스트 가져오기
 const allPosts = await getCollection('blog');
@@ -14,53 +12,42 @@ const tags = [...new Set(allPosts.map((post) => post.data.tags).flat().filter(ta
 const pageTitle = "Tags | " + SITE_TITLE;
 ---
 
-<!doctype html>
-<html lang="ko">
-    <head>
-        <BaseHead title={pageTitle} description={SITE_DESCRIPTION} />
-        <style>
-            .tag-list {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 12px;
-                margin-top: 2rem;
-            }
-            .tag-card {
-                background: #f4f4f4;
-                border-radius: 8px;
-                padding: 10px 18px;
-                text-decoration: none;
-                color: #333;
-                font-weight: bold;
-                border: 1px solid #ddd;
-                transition: all 0.2s ease;
-            }
-            .tag-card:hover {
-                background: #749bca;
-                color: white;
-                transform: translateY(-2px);
-            }
-        </style>
-    </head>
-    <body>
-        <div class="wrapper">
-            <Header />
-            <main>
-                <h1>Tags 🏷️</h1>
-                
-                <div class="tag-list">
-                    {tags.length > 0 ? (
-                        tags.map((tag) => (
-                            <a href={`/tags/${tag}`} class="tag-card">
-                                #{tag}
-                            </a>
-                        ))
-                    ) : (
-                        <p>등록된 태그가 없습니다.</p>
-                    )}
-                </div>
-            </main>
-        </div>
-        <Footer />
-    </body>
-</html>
+<Layout title={pageTitle} description={SITE_DESCRIPTION}>
+    <style slot="head">
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 2rem;
+        }
+        .tag-card {
+            background: #f4f4f4;
+            border-radius: 8px;
+            padding: 10px 18px;
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+            border: 1px solid #ddd;
+            transition: all 0.2s ease;
+        }
+        .tag-card:hover {
+            background: #749bca;
+            color: white;
+            transform: translateY(-2px);
+        }
+    </style>
+
+    <h1>Tags 🏷️</h1>
+
+    <div class="tag-list">
+        {tags.length > 0 ? (
+            tags.map((tag) => (
+                <a href={`/tags/${tag}`} class="tag-card">
+                    #{tag}
+                </a>
+            ))
+        ) : (
+            <p>등록된 태그가 없습니다.</p>
+        )}
+    </div>
+</Layout>
