@@ -4,44 +4,126 @@ import HeaderLink from './HeaderLink.astro';
 ---
 
 <header>
-	<nav>
-		<h2><a href="/">{SITE_TITLE}</a></h2>
-		<div class="internal-links">
-			<HeaderLink href="/">Home</HeaderLink>
-			<HeaderLink href="/blog">Blog</HeaderLink>
-			<HeaderLink href="/about">About</HeaderLink>
-			<HeaderLink href="/tags">Tags</HeaderLink>
-			<HeaderLink href="/search">Search</HeaderLink>
-		</div>
-	</nav>
+    <nav>
+        <h2><a href="/">{SITE_TITLE}</a></h2>
+        
+        <button id="menu-toggle" aria-label="메뉴 열기">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <div class="internal-links" id="nav-menu">
+            <HeaderLink href="/">Home</HeaderLink>
+            <HeaderLink href="/blog">Blog</HeaderLink>
+            <HeaderLink href="/about">About</HeaderLink>
+            <HeaderLink href="/tags">Tags</HeaderLink>
+            <HeaderLink href="/search">Search</HeaderLink>
+        </div>
+    </nav>
 </header>
 
 <style>
-	nav a {
-		color: var(--link-hover-color);
-		margin: 5px;
-	}
+    /* 기존 스타일 유지 및 보완 */
+    nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        white-space: nowrap;
+        width: 90%;      
+        max-width: 800px;
+        margin: 0 auto 30px;
+        position: relative; /* 모바일 메뉴 위치 기준 */
+    }
 
-	nav a:hover {
-		color: var(--link-color);
-	}
+    nav h2 a {
+        color: var(--text-color);
+        text-decoration: none;
+    }
 
-	nav h2 a {
-		color: var(--text-color);
-		text-decoration: none;
-	}
-	nav {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		white-space: nowrap;
-		width: 90%;      
-		max-width: 800px;
-		margin: 0 auto 30px;
-	}
+    .internal-links {
+        display: flex;
+    }
 
-	nav a.active {
-		font-weight: bolder;
-		color: #363636;
-	}
+    .internal-links a {
+        color: var(--link-hover-color);
+        margin: 5px 10px;
+        text-decoration: none;
+    }
+
+    .internal-links a:hover {
+        color: var(--link-color);
+    }
+
+    .internal-links a.active {
+        font-weight: bolder;
+        color: #363636;
+    }
+
+    /* 햄버거 버튼 스타일 (기본 숨김) */
+    #menu-toggle {
+        display: none;
+        flex-direction: column;
+        justify-content: space-around;
+        width: 24px;
+        height: 20px;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+    }
+
+    #menu-toggle span {
+        width: 24px;
+        height: 2px;
+        background-color: var(--text-color);
+        transition: all 0.3s ease;
+    }
+
+    /* 모바일 반응형 스타일 (768px 이하) */
+    @media (max-width: 720px) {
+        #menu-toggle {
+            display: flex; /* 모바일에서 버튼 표시 */
+        }
+
+        .internal-links {
+            display: none; /* 기본적으로 메뉴 숨김 */
+            flex-direction: column;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: #fff; /* 배경색은 사이트 테마에 맞춰 수정하세요 */
+            padding: 1rem 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            z-index: 10;
+        }
+
+        /* show 클래스가 추가되면 메뉴 표시 */
+        .internal-links.show {
+            display: flex;
+        }
+
+        .internal-links a {
+            margin: 10px 0;
+            text-align: center;
+            width: 100%;
+        }
+    }
 </style>
+
+<script>
+    // Astro View Transitions를 사용할 경우 'astro:page-load' 이벤트를 사용하세요.
+    // 사용하지 않는다면 그냥 아래 내부 로직만 써도 됩니다.
+    const initMenu = () => {
+        const toggle = document.querySelector('#menu-toggle');
+        const menu = document.querySelector('#nav-menu');
+
+        toggle?.addEventListener('click', () => {
+            menu?.classList.toggle('show');
+        });
+    };
+
+    initMenu();
+    document.addEventListener('astro:after-swap', initMenu); // 페이지 이동 후에도 작동하도록 함
+</script>
