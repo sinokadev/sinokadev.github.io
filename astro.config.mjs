@@ -15,6 +15,7 @@ import { defineConfig } from "astro/config";
 import pagefind from "astro-pagefind";
 
 export default defineConfig({
+
   site: 'https://sinoka.dev',
 
   markdown: {
@@ -52,5 +53,8 @@ export default defineConfig({
       ]
     }),
     pagefind()
-  ]
+  ],
+    build: {
+    inlineStylesheets: 'always', 
+  },
 });
