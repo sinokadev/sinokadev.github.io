@@ -15,10 +15,14 @@ import myHeroImage from '../assets/IMG_0340.png';
 	
 	<Image 
 		src={myHeroImage} 
-		width={800}
+		widths={[400, 616, 800, 1200, 2400]} 
+		
+		sizes="(max-width: 768px) 100vw, 616px" 
+		
 		format="webp"
 		alt="눈덮인 산과 집들"
 		loading="eager"
 		fetchpriority="high"
+		class="w-full h-auto max-w-[800px]" 
 	/>
 </Layout>
