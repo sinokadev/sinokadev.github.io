@@ -2,6 +2,7 @@
 title: "YouKnowPython [while-else, for-else]"
 pubDate: 2026-03-31T19:44:38+09:00
 description: "while, for의 숨겨진 사용법, while-else, for-else에 대한 글입니다."
+tags: ["YouKnowPython", "프로그래밍"]
 ---
 
 `else`는 루프에도 사용 가능하다는 것을 알고 계셨나요? 지금부터 알아보겠습니다.
