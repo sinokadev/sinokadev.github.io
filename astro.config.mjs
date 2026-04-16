@@ -23,7 +23,7 @@ export default defineConfig({
       remarkGfm,
       remarkMath,
       [remarkToc, { heading: '목차' }],
-      remarkReadingTime
+      remarkReadingTime,
     ],
     rehypePlugins: [
       rehypeKatex,

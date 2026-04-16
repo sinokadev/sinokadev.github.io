@@ -12,7 +12,7 @@ body {
   background-color: var(--bg-color);
   color: var(--text-color);
   text-align: center;
-  font-family: Pretendard, ui-sans-serif, sans-serif, system-ui, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  font-family: ui-sans-serif, sans-serif, system-ui, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   
   /* 스티키 푸터를 위한 엔진 */
   display: flex;
@@ -151,4 +151,17 @@ hr {
   margin-top: 1.5em;
   margin-bottom: 1.5em;
   
+}
+
+.katex-display {
+  font-size: 1.2em;
+  margin: 1.5em 0;
+}
+
+@media (max-width: 768px) {
+  .katex-display {
+    font-size: 1.05em;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
 }
