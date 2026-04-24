@@ -4,8 +4,11 @@ import FormattedDate from '../../components/FormattedDate.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
 import Layout from '../../layouts/Layout.astro';
 
-const posts = (await getCollection('blog')).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+const posts = (await getCollection('blog', ({ data }) => {
+    // 빌드(운영) 환경일 때만 draft가 true가 아닌 글들만 통과시킴
+    return import.meta.env.PROD ? data.draft !== true : true;
+})).sort(
+    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
 ---
 

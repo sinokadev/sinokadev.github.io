@@ -3,7 +3,11 @@ import { type CollectionEntry, getCollection, render } from 'astro:content';
 import BlogPost from '../../layouts/BlogPost.astro';
 
 export async function getStaticPaths() {
-    const posts = await getCollection('blog');
+    const posts = await getCollection('blog', ({ data }) => {
+        // 프로덕션(빌드) 환경일 때 draft: true인 글은 경로 생성에서 제외합니다.
+        // 개발 모드(npm run dev)에서는 작성 중인 글을 확인할 수 있게 허용합니다.
+        return import.meta.env.PROD ? data.draft !== true : true;
+    });
     return posts.map((post) => ({
         params: { slug: post.id },
         props: post,
@@ -12,6 +16,9 @@ export async function getStaticPaths() {
 type Props = CollectionEntry<'blog'>;
 
 const post = Astro.props;
+
+if (import.meta.env.PROD && post.data.draft) return Astro.redirect('/404');
+
 const { Content, remarkPluginFrontmatter } = await render(post);
 
 // 현재 포스트의 태그 가져오기 (없을 경우를 대비해 빈 배열 기본값 설정)
@@ -43,7 +50,7 @@ const { tags = [] } = post.data;
         background-color: #f0f0f0;
         padding: 0.2rem 0.7rem;
         border-radius: 4px;
-        font-size: 0.85rem;
+        font-size: 0.85rem; 
         color: #444;
         text-decoration: none;
         transition: background 0.2s;
