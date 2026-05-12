@@ -13,6 +13,29 @@ const pageTitle = "Tags | " + SITE_TITLE;
 ---
 
 <Layout title={pageTitle} description={SITE_DESCRIPTION}>
+    <style slot="head">
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 2rem;
+        }
+        .tag-card {
+            background: #f4f4f4;
+            border-radius: 8px;
+            padding: 10px 18px;
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+            border: 1px solid #ddd;
+            transition: all 0.2s ease;
+        }
+        .tag-card:hover {
+            background: #749bca;
+            color: white;
+            transform: translateY(-2px);
+        }
+    </style>
 
     <h1>Tags 🏷️</h1>
 
