@@ -1,4 +1,4 @@
-# noka blog
+# my blog
 
 ## 라이선스
 
