@@ -8,7 +8,7 @@ tags: ["YouKnowPython", "프로그래밍"]
 
 # Unpacking Operator (언패킹 연산자)
 
-사용 가능: `Python 3.5+`
+사용 가능: `Python 3.5+`  
 추가됨: [PEP 448](https://peps.python.org/pep-0448/)
 
 리스트나 튜플 객체 앞에 `*`을 붙이면 그 객체를 언패킹 할 수 있습니다.
