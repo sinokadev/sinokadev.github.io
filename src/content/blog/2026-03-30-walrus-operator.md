@@ -5,7 +5,7 @@ description: "대입 표현식, 바다코끼리 연산자에 대한 설명입니
 tags: ["YouKnowPython", "프로그래밍"]
 ---
 
-추가됨: `Python 3.8`
+사용 가능: `Python 3.8+`
 
 ## 대입 표현식
 

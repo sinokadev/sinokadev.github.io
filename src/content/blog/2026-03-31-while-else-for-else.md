@@ -5,6 +5,8 @@ description: "while, for의 숨겨진 사용법, while-else, for-else에 대한 
 tags: ["YouKnowPython", "프로그래밍"]
 ---
 
+사용 가능: `Python 1.0+`
+
 `else`는 루프에도 사용 가능하다는 것을 알고 계셨나요? 지금부터 알아보겠습니다.
 
 ## for-else
