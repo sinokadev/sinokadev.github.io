@@ -1,7 +1,7 @@
 :root {
   --text-color: #363636;
   --link-color: #535353;
-  --link-hover-color: #779eff;
+  --link-hover-color: #7e7e7e;
   --bg-color: #f5f5f5;
   --bg-color-two: #e6e6e6;
 }
@@ -31,16 +31,14 @@ body {
   margin: 0 auto;
 }
 
-nav ul a {
-  text-decoration: none;
-  color: var(--text-color);
+ul a {
+    text-decoration: none;
 }
 
 a {
   font-weight: 600;
   transition: color 0.1s ease;
-  color: #3a72ff;
-
+  color: var(--text-color);
 }
 
 a:hover {
