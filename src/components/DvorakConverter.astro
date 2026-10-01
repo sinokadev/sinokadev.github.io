@@ -3,7 +3,7 @@
 ---
 
 <div class="kbd-converter">
-  <h2>QWERTY ⇄ 2벌식 ⇄ Dvorak 변환기</h2>
+  <h2>QWERTY ⇄ 2벌식 ⇄ Dvorak ⇄ Colemak 변환기</h2>
   <p class="desc">
     같은 물리 키를 눌렀을 때 각 자판 배열에서 나오는 글자를 서로 변환해요.
   </p>
@@ -38,27 +38,47 @@
     </div>
     <textarea id="kbd-dvorak" data-layout="dvorak" placeholder="Dvorak 자판으로 친 글자..." spellcheck="false"></textarea>
   </div>
+
+  <div class="section">
+    <div class="label-row">
+      <label for="kbd-colemak">Colemak (영문)</label>
+      <span class="btns">
+        <button type="button" data-copy="colemak">복사</button>
+      </span>
+    </div>
+    <textarea id="kbd-colemak" data-layout="colemak" placeholder="Colemak 자판으로 친 글자..." spellcheck="false"></textarea>
+  </div>
 </div>
 
 <script>
-  type Layout = 'qwerty' | 'hangul' | 'dvorak';
+  type Layout = 'qwerty' | 'hangul' | 'dvorak' | 'colemak';
 
   // ───────────────────────────────────────────────
-  // 1. QWERTY <-> Dvorak (물리 키 위치 기준)
+  // 1. QWERTY <-> Dvorak / Colemak (물리 키 위치 기준)
   // ───────────────────────────────────────────────
   const Q_LOWER = "`1234567890-=qwertyuiop[]\\asdfghjkl;'zxcvbnm,./";
-  const D_LOWER = "`1234567890[]',.pyfgcrl/=\\aoeuidhtns-;qjkxbmwvz";
   const Q_UPPER = "~!@#$%^&*()_+QWERTYUIOP{}|ASDFGHJKL:\"ZXCVBNM<>?";
+
+  const D_LOWER = "`1234567890[]',.pyfgcrl/=\\aoeuidhtns-;qjkxbmwvz";
   const D_UPPER = "~!@#$%^&*(){}\"<>PYFGCRL?+|AOEUIDHTNS_:QJKXBMWVZ";
 
-  const qwertyToDvorak: Record<string, string> = {};
-  const dvorakToQwerty: Record<string, string> = {};
-  for (const [qs, ds] of [[Q_LOWER, D_LOWER], [Q_UPPER, D_UPPER]]) {
-    for (let i = 0; i < qs.length; i++) {
-      qwertyToDvorak[qs[i]] = ds[i];
-      dvorakToQwerty[ds[i]] = qs[i];
+  const C_LOWER = "`1234567890-=qwfpgjluy;[]\\arstdhneio'zxcvbkm,./";
+  const C_UPPER = "~!@#$%^&*()_+QWFPGJLUY:{}|ARSTDHNEIO\"ZXCVBKM<>?";
+
+  function buildMaps(lower: string, upper: string) {
+    const fromQwerty: Record<string, string> = {};
+    const toQwerty: Record<string, string> = {};
+    for (const [qs, ts] of [[Q_LOWER, lower], [Q_UPPER, upper]]) {
+      for (let i = 0; i < qs.length; i++) {
+        fromQwerty[qs[i]] = ts[i];
+        toQwerty[ts[i]] = qs[i];
+      }
     }
+    return { fromQwerty, toQwerty };
   }
+
+  const { fromQwerty: qwertyToDvorak, toQwerty: dvorakToQwerty } = buildMaps(D_LOWER, D_UPPER);
+  const { fromQwerty: qwertyToColemak, toQwerty: colemakToQwerty } = buildMaps(C_LOWER, C_UPPER);
 
   // ───────────────────────────────────────────────
   // 2. QWERTY 키 <-> 2벌식 자모
@@ -238,19 +258,21 @@
   const toKeys: Record<Layout, (t: string) => string> = {
     qwerty: (t) => t,
     dvorak: (t) => mapChars(t, dvorakToQwerty),
+    colemak: (t) => mapChars(t, colemakToQwerty),
     hangul: hangulToKeys,
   };
 
   const fromKeys: Record<Layout, (k: string) => string> = {
     qwerty: (k) => k,
     dvorak: (k) => mapChars(k, qwertyToDvorak),
+    colemak: (k) => mapChars(k, qwertyToColemak),
     hangul: keysToHangul,
   };
 
   // ───────────────────────────────────────────────
   // 4. DOM 연결
   // ───────────────────────────────────────────────
-  const layouts: Layout[] = ['qwerty', 'hangul', 'dvorak'];
+  const layouts: Layout[] = ['qwerty', 'hangul', 'dvorak', 'colemak'];
   const els = {} as Record<Layout, HTMLTextAreaElement>;
   for (const l of layouts) {
     els[l] = document.querySelector(`textarea[data-layout="${l}"]`) as HTMLTextAreaElement;
