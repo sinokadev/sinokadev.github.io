@@ -1,0 +1,37 @@
+---
+import { getEntry } from 'astro:content';
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends HTMLAttributes<'a'> {
+	id?: string;
+	slug?: string;
+	name?: string;
+	post?: string;
+}
+
+const { id, slug, name, post, class: className, ...rest } = Astro.props;
+
+let target = id ?? slug ?? name ?? post ?? '';
+
+// 앞쪽 경로 제거 (예: ./, src/content/blog/ 등)
+target = target.replace(/^(?:\.\/|.*\/)/, '').trim();
+// 확장자 제거 (.md, .mdx)
+target = target.replace(/\.(md|mdx)$/, '');
+
+let postEntry: any = null;
+
+if (target) {
+	try {
+		postEntry = await getEntry('blog', target);
+	} catch (e) {
+		// fallback 유지
+	}
+}
+
+const hasSlot = Astro.slots.has('default');
+const postSlug = postEntry?.id ?? target;
+const displayTitle = postEntry?.data?.title ?? target;
+const href = postSlug ? `/blog/${postSlug}/` : '#';
+---
+
+<a href={href} class:list={[className]} {...rest}>{hasSlot ? <slot /> : displayTitle}</a>
