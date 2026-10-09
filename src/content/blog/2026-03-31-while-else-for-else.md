@@ -17,6 +17,8 @@ tags: ["YouKnowPython", "프로그래밍"]
 
 #### 소수 판별
 
+<figure class="captioned-figure">
+
 ```py
 for n in range(2, 10):
     for x in range(2, n):
@@ -27,7 +29,9 @@ for n in range(2, 10):
         # loop fell through without finding a factor
         print(n, 'is a prime number')
 ```
-<small>출처: https://docs.python.org/3/tutorial/controlflow.html#else-clauses-on-loops</small>
+
+<figcaption>출처: https://docs.python.org/3/tutorial/controlflow.html#else-clauses-on-loops</figcaption>
+</figure>
 
 이 예제는 소수를 찾습니다. `n` 나누기 `x`의 나머지가 0이라면 `n`에는 자기 자신과 1을 제외한 약수가 있는 것이므로 `n`은 소수가 아닙니다. 따라서 약수를 출력한 후, `break` 됩니다.  
 하지만 약수가 없다면 (`2~n-1` 범위의 모든 숫자에 대해 `n % x`가 0이 아니라면) `break`가 실행되지 않았으므로 `else`로 넘어가서 해당 숫자가 소수라고 표시합니다.

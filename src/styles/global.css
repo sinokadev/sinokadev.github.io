@@ -74,11 +74,24 @@ img, image {
   border-radius: 12px;
   box-shadow: var(--box-shadow);
 }
-small {
-  display: block;
+.captioned-figure {
+  margin: 1.5em 0;
+}
+
+.captioned-figure > p,
+.captioned-figure > pre,
+.captioned-figure > figure {
+  margin: 0;
+}
+
+figcaption {
+  margin-top: 0.5rem;
   text-align: center;
   color: var(--link-color);
-  font-weight: 600;
+  font-size: 0.9em;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
 }
 
 :not(pre) > code {

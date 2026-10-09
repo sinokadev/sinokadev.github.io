@@ -33,11 +33,15 @@ while (line := input("입력하세요: ")) != "quit":
 
 이 예에서, 대입 표현식은 len()을 두 번 호출하지 않도록 돕습니다.
 
+<figure class="captioned-figure">
+
 ```py
 if (n := len(a)) > 10:
     print(f"List is too long ({n} elements, expected <= 10)")
 ```
-<small>출처: https://docs.python.org/ko/3.13/whatsnew/3.8.html</small>
+
+<figcaption>출처: https://docs.python.org/ko/3.13/whatsnew/3.8.html</figcaption>
+</figure>
 
 더 자세한 예시는 [Python Docs](https://docs.python.org/ko/3.13/whatsnew/3.8.html#assignment-expressions)와 [PEP 572 문서](https://peps.python.org/pep-0572/)를 참고하십시오.
 
