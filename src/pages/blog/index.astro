@@ -17,7 +17,7 @@ const posts = (await getCollection('blog', ({ data }) => {
 		ul {
 			display: flex;
 			flex-direction: column; /* 세로 정렬 */
-			gap: 2.5rem;
+			gap: 1rem;
 			list-style-type: none;
 			margin: 0;
 			padding: 0;
@@ -30,18 +30,18 @@ const posts = (await getCollection('blog', ({ data }) => {
 
 		ul li a {
 			display: block;
-			padding: 1.5rem;
+			padding: 1rem 1.5rem;
 			border-radius: 16px;
-			transition: 0.2s ease;
+			text-decoration: none;
+			transition: color 0.2s ease;
 		}
 
 		ul li a:hover {
-			box-shadow: var(--box-shadow);
-			transform: translateY(-2px);
+			color: var(--link-hover-color);
 		}
 
 		.title {
-			margin: 0 0 0.5rem 0;
+			margin: 0;
 			line-height: 1.4;
 			font-size: 1.6rem; /* 제목 크게 */
 			word-break: keep-all;
@@ -49,8 +49,10 @@ const posts = (await getCollection('blog', ({ data }) => {
 		}
 
 		.date {
-			margin: 0;
-			color: rgb(var(--gray));
+			margin: 0 0 0.4rem;
+			color: var(--muted-text-color);
+			font-size: 0.8rem;
+			font-weight: 400;
 		}
 	</style>
 
@@ -60,11 +62,10 @@ const posts = (await getCollection('blog', ({ data }) => {
 				posts.map((post) => (
 					<li>
 						<a href={`/blog/${post.id}/`}>
-							<h4 class="title">{post.data.title}</h4>
 							<p class="date">
 								<FormattedDate date={post.data.pubDate} />
 							</p>
-							<p class="preview">{post.data.description}</p>
+							<h4 class="title">{post.data.title}</h4>
 						</a>
 					</li>
 				))

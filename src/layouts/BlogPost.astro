@@ -43,6 +43,12 @@ const { title, description, pubDate, updatedDate, heroImage, minutesRead } = Ast
 		.last-updated-on {
 			font-style: italic;
 		}
+		.post-content :global(a) {
+			color: #0066cc;
+		}
+		.post-content :global(a:hover) {
+			color: #004c99;
+		}
 
 		hr {
 			border: 0;
@@ -61,7 +67,7 @@ const { title, description, pubDate, updatedDate, heroImage, minutesRead } = Ast
 			<div class="title">
 				<div class="date">
 					<div class="date-container">
-						<FormattedDate date={pubDate} />
+						<FormattedDate date={pubDate} showTime />
 						{minutesRead && (
 							<>
 								<span class="separator"> • </span>
@@ -80,7 +86,9 @@ const { title, description, pubDate, updatedDate, heroImage, minutesRead } = Ast
 				<h1>{title}</h1>
 				<hr />
 			</div>
-			<slot />
+			<div class="post-content">
+				<slot />
+			</div>
 			<script src="https://giscus.app/client.js"
 					data-repo="sinokadev/blog-giscus"
 					data-repo-id="R_kgDORKSjOA"

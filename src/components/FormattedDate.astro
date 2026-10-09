@@ -1,17 +1,26 @@
 ---
 interface Props {
 	date: Date;
+	showTime?: boolean;
 }
 
-const { date } = Astro.props;
+const { date, showTime = false } = Astro.props;
+const formattedDate = date.toLocaleDateString('ko-KR', {
+    timeZone: 'Asia/Seoul',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+});
+const formattedTime = showTime
+    ? date.toLocaleTimeString('ko-KR', {
+        timeZone: 'Asia/Seoul',
+        hour: '2-digit',
+        minute: '2-digit',
+        hourCycle: 'h23',
+    })
+    : '';
 ---
 
 <time datetime={date.toISOString()}>
-    {
-        date.toLocaleDateString('ko-kr', {
-            year: 'numeric',
-            month: 'long', // '1월'처럼 표시하고 싶으면 'long', '1'처럼 숫자만 원하면 'numeric'
-            day: 'numeric',
-        })
-    }
+    {formattedDate}{showTime && ` ${formattedTime}`}
 </time>
