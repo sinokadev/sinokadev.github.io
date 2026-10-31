@@ -14,6 +14,7 @@ import HeaderLink from './HeaderLink.astro';
         </button>
 
         <div class="internal-links" id="nav-menu">
+            <HeaderLink href="/" class="mobile-home">Home</HeaderLink>
             <HeaderLink href="/blog">Blog</HeaderLink>
             <HeaderLink href="/about">About</HeaderLink>
             <HeaderLink href="/tags">Tags</HeaderLink>
@@ -42,6 +43,10 @@ import HeaderLink from './HeaderLink.astro';
 
     .internal-links {
         display: flex;
+    }
+
+    .internal-links .mobile-home {
+        display: none;
     }
 
     .internal-links a {
@@ -107,6 +112,10 @@ import HeaderLink from './HeaderLink.astro';
             margin: 10px 0;
             text-align: center;
             width: 100%;
+        }
+
+        .internal-links .mobile-home {
+            display: block;
         }
     }
 </style>
