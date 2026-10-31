@@ -1,5 +1,5 @@
 /* Color palette matched to SinokaDev; Giscus keeps its default design. */
-:root {
+main {
   --color-canvas-default: #f5f5f5;
   --color-canvas-overlay: #f5f5f5;
   --color-canvas-inset: #eeeeee;
