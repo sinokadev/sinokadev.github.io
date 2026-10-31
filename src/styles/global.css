@@ -21,6 +21,8 @@ body {
   min-height: 100vh;
 
   overflow-x: hidden;
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 .wrapper {
@@ -104,8 +106,8 @@ figcaption {
 
 /* 기본 blockquote */
 blockquote {
-  margin: 1.5rem 0;
-  padding: 0.75rem 1rem;
+  margin: 0.7rem 0;
+  padding: 0.15rem 1rem;
   border-left: 4px solid #3f3f3f;
   background: rgba(97, 97, 97, 0.05);
   border-radius: 6px;
@@ -119,7 +121,7 @@ blockquote p {
 
 /* 중첩 blockquote */
 blockquote blockquote {
-  margin: 0.75rem 0 0 0;
+  margin: 0.15rem 0 0 0;
   border-left-color: #aaaaaa;
   background: rgba(167, 167, 167, 0.08);
 }

@@ -18,6 +18,7 @@ export default defineConfig({
   site: 'https://sinoka.dev',
 
   markdown: {
+    smartypants: false,
     processor: unified({
       remarkPlugins: [
         remarkGfm,
