@@ -1,5 +1,70 @@
-/* Color palette matched to SinokaDev; Giscus keeps its default design. */
+/*
+ * Based on https://giscus.app/themes/custom_example.css
+ * Color palette adapted to SinokaDev. Giscus layout and component styles
+ * remain unchanged.
+ */
 main {
+  --color-prettylights-syntax-comment: #737373;
+  --color-prettylights-syntax-constant: #535353;
+  --color-prettylights-syntax-entity: #5c5c5c;
+  --color-prettylights-syntax-storage-modifier-import: #363636;
+  --color-prettylights-syntax-entity-tag: #535353;
+  --color-prettylights-syntax-keyword: #363636;
+  --color-prettylights-syntax-string: #666666;
+  --color-prettylights-syntax-variable: #5c5c5c;
+  --color-prettylights-syntax-brackethighlighter-unmatched: #363636;
+  --color-prettylights-syntax-invalid-illegal-text: #f5f5f5;
+  --color-prettylights-syntax-invalid-illegal-bg: #535353;
+  --color-prettylights-syntax-carriage-return-text: #f5f5f5;
+  --color-prettylights-syntax-carriage-return-bg: #535353;
+  --color-prettylights-syntax-string-regexp: #5c5c5c;
+  --color-prettylights-syntax-markup-list: #535353;
+  --color-prettylights-syntax-markup-heading: #363636;
+  --color-prettylights-syntax-markup-italic: #535353;
+  --color-prettylights-syntax-markup-bold: #363636;
+  --color-prettylights-syntax-markup-deleted-text: #363636;
+  --color-prettylights-syntax-markup-deleted-bg: #e6e6e6;
+  --color-prettylights-syntax-markup-inserted-text: #363636;
+  --color-prettylights-syntax-markup-inserted-bg: #e6e6e6;
+  --color-prettylights-syntax-markup-changed-text: #363636;
+  --color-prettylights-syntax-markup-changed-bg: #e6e6e6;
+  --color-prettylights-syntax-markup-ignored-text: #535353;
+  --color-prettylights-syntax-markup-ignored-bg: #e6e6e6;
+  --color-prettylights-syntax-meta-diff-range: #535353;
+  --color-prettylights-syntax-brackethighlighter-angle: #737373;
+  --color-prettylights-syntax-sublimelinter-gutter-mark: #737373;
+  --color-prettylights-syntax-constant-other-reference-link: #535353;
+
+  --color-btn-text: #363636;
+  --color-btn-bg: #f5f5f5;
+  --color-btn-border: #cfcfcf;
+  --color-btn-shadow: 0 1px 0 rgb(31 35 40 / 4%);
+  --color-btn-inset-shadow: inset 0 1px 0 rgb(255 255 255 / 25%);
+  --color-btn-hover-bg: #e6e6e6;
+  --color-btn-hover-border: #bdbdbd;
+  --color-btn-active-bg: #dedede;
+  --color-btn-active-border: #bdbdbd;
+  --color-btn-selected-bg: #e6e6e6;
+  --color-btn-primary-text: #f5f5f5;
+  --color-btn-primary-bg: #363636;
+  --color-btn-primary-border: #363636;
+  --color-btn-primary-shadow: 0 1px 0 rgb(31 35 40 / 10%);
+  --color-btn-primary-inset-shadow: inset 0 1px 0 rgb(255 255 255 / 3%);
+  --color-btn-primary-hover-bg: #535353;
+  --color-btn-primary-hover-border: #535353;
+  --color-btn-primary-selected-bg: #363636;
+  --color-btn-primary-selected-shadow: inset 0 1px 0 rgb(0 0 0 / 20%);
+  --color-btn-primary-disabled-text: #737373;
+  --color-btn-primary-disabled-bg: #e6e6e6;
+  --color-btn-primary-disabled-border: #cfcfcf;
+
+  --color-action-list-item-default-hover-bg: #e6e6e6;
+  --color-segmented-control-bg: #e6e6e6;
+  --color-segmented-control-button-bg: #f5f5f5;
+  --color-segmented-control-button-selected-border: #bdbdbd;
+  --color-fg-default: #363636;
+  --color-fg-muted: #737373;
+  --color-fg-subtle: #7e7e7e;
   --color-canvas-default: #f5f5f5;
   --color-canvas-overlay: #f5f5f5;
   --color-canvas-inset: #eeeeee;
@@ -7,34 +72,20 @@ main {
   --color-border-default: #c4c4c4;
   --color-border-muted: #e1e1e1;
   --color-neutral-muted: #e6e6e6;
-  --color-fg-default: #363636;
-  --color-fg-muted: #737373;
-  --color-fg-subtle: #7e7e7e;
   --color-accent-fg: #535353;
   --color-accent-emphasis: #535353;
   --color-accent-muted: #d8d8d8;
   --color-accent-subtle: #ededed;
-  --color-btn-bg: #f5f5f5;
-  --color-btn-border: #cfcfcf;
-  --color-btn-text: #363636;
-  --color-btn-hover-bg: #e6e6e6;
-  --color-btn-hover-border: #bdbdbd;
-  --color-btn-shadow: 0 1px 0 rgb(31 35 40 / 4%);
-  --color-btn-inset-shadow: inset 0 1px 0 rgb(255 255 255 / 25%);
-  --color-btn-active-bg: #dedede;
-  --color-btn-active-border: #bdbdbd;
-  --color-btn-selected-bg: #e6e6e6;
-  --color-btn-primary-bg: #363636;
-  --color-btn-primary-border: #363636;
-  --color-btn-primary-text: #f5f5f5;
-  --color-btn-primary-shadow: 0 1px 0 rgb(31 35 40 / 10%);
-  --color-btn-primary-inset-shadow: inset 0 1px 0 rgb(255 255 255 / 3%);
-  --color-btn-primary-hover-bg: #535353;
-  --color-btn-primary-hover-border: #535353;
-  --color-btn-primary-selected-bg: #363636;
-  --color-btn-primary-selected-shadow: inset 0 1px 0 rgb(0 0 0 / 20%);
-  --color-btn-primary-disabled-border: #cfcfcf;
+  --color-success-fg: #535353;
+  --color-attention-fg: #535353;
+  --color-attention-muted: #d8d8d8;
+  --color-attention-subtle: #ededed;
+  --color-danger-fg: #535353;
+  --color-danger-muted: #d8d8d8;
+  --color-danger-subtle: #ededed;
   --color-primer-shadow-inset: inset 0 1px 0 rgb(212 212 212 / 20%);
-  --color-social-reaction-bg-hover: #e6e6e6;
-  --color-social-reaction-bg-reacted-hover: #dedede;
+  --color-scale-gray-7: #e6e6e6;
+  --color-scale-blue-8: #e6e6e6;
+  --color-social-reaction-bg-hover: var(--color-scale-gray-7);
+  --color-social-reaction-bg-reacted-hover: var(--color-scale-blue-8);
 }
