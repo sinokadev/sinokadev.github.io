@@ -8,6 +8,7 @@ import "katex/dist/katex.min.css";
 type Props = CollectionEntry<'blog'>['data'] & { minutesRead?: string };
 
 const { title, description, pubDate, updatedDate, heroImage, minutesRead, draft = false } = Astro.props;
+const giscusTheme = import.meta.env.DEV ? 'light' : 'https://sinoka.dev/giscus-theme.css';
 ---
 
 <Layout title={title} description={description} pagefindIgnore={draft}>
@@ -100,7 +101,7 @@ const { title, description, pubDate, updatedDate, heroImage, minutesRead, draft 
 					data-reactions-enabled="1"
 					data-emit-metadata="0"
 					data-input-position="bottom"
-					data-theme="light"
+					data-theme={giscusTheme}
 					data-lang="ko"
 					data-loading="lazy"
 					crossorigin="anonymous"
