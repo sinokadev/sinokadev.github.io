@@ -4,7 +4,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
 import Layout from '../../layouts/Layout.astro';
 
 // 1. 'blog' 컬렉션에서 모든 포스트 가져오기
-const allPosts = await getCollection('blog');
+const allPosts = await getCollection('blog', ({ data }) => data.draft !== true);
 
 // 2. tags 추출 (Content Collections는 post.data 안에 frontmatter가 들어있습니다)
 const tags = [...new Set(allPosts.map((post) => post.data.tags).flat().filter(tag => tag))];

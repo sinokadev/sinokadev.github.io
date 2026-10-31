@@ -2,9 +2,9 @@
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-const { title, description } = Astro.props;
+const { title, description, pagefindIgnore = false } = Astro.props;
 ---
-<html lang="ko">
+<html lang="ko" data-pagefind-ignore={pagefindIgnore ? '' : undefined}>
     <head>
         <BaseHead title={title} description={description} />
         <slot name="head" />

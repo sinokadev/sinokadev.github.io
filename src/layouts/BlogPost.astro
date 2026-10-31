@@ -7,10 +7,10 @@ import "katex/dist/katex.min.css";
 
 type Props = CollectionEntry<'blog'>['data'] & { minutesRead?: string };
 
-const { title, description, pubDate, updatedDate, heroImage, minutesRead } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, minutesRead, draft = false } = Astro.props;
 ---
 
-<Layout title={title} description={description}>
+<Layout title={title} description={description} pagefindIgnore={draft}>
 	<style slot="head">
 		main {
 			width: calc(100% - 2em);

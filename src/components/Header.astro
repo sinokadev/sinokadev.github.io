@@ -45,21 +45,21 @@ import HeaderLink from './HeaderLink.astro';
         display: flex;
     }
 
-    .internal-links .mobile-home {
+    .internal-links :global(.mobile-home) {
         display: none;
     }
 
-    .internal-links a {
+    .internal-links :global(a) {
         color: var(--link-hover-color);
         margin: 5px 10px;
         text-decoration: none;
     }
 
-    .internal-links a:hover {
+    .internal-links :global(a:hover) {
         color: var(--link-color);
     }
 
-    .internal-links a.active {
+    .internal-links :global(a.active) {
         font-weight: bolder;
         color: #363636;
     }
@@ -108,13 +108,13 @@ import HeaderLink from './HeaderLink.astro';
             display: flex;
         }
 
-        .internal-links a {
+        .internal-links :global(a) {
             margin: 10px 0;
             text-align: center;
             width: 100%;
         }
 
-        .internal-links .mobile-home {
+        .internal-links :global(.mobile-home) {
             display: block;
         }
     }

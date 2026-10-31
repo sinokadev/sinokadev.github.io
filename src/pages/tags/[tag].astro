@@ -6,7 +6,7 @@ import FormattedDate from '../../components/FormattedDate.astro';
 
 // 1. 모든 태그에 대한 정적 경로 생성
 export async function getStaticPaths() {
-  const allPosts = await getCollection('blog');
+  const allPosts = await getCollection('blog', ({ data }) => data.draft !== true);
 
   // 모든 포스트에서 중복 없는 태그 목록 추출
   const uniqueTags = [...new Set(allPosts.map((post) => post.data.tags).flat().filter(tag => tag))];
