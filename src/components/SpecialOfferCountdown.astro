@@ -1,0 +1,92 @@
+<section class="special-offer" aria-label="특별 할인 행사">
+  <p class="offer-title">특별 할인가</p>
+  <div class="offer-prices">
+    <del>360,000,000원</del>
+    <span class="offer-arrow" aria-hidden="true">→</span>
+    <strong class="offer-price">0원</strong>
+    <span class="offer-discount">100% 할인</span>
+  </div>
+  <p class="offer-timer">특별 할인가 끝나기까지 <strong id="special-offer-countdown">--:--:--</strong></p>
+</section>
+
+<style>
+  .special-offer {
+    max-width: 26rem;
+    margin: 1.5rem auto;
+    padding: 0.8rem 0 0.7rem;
+    border-top: 2px solid #c82027;
+    border-bottom: 1px solid #d8d2cc;
+    color: inherit;
+    text-align: center;
+  }
+
+  .offer-title {
+    margin: 0 0 0.4rem;
+    color: #555;
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+
+  .offer-prices {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .offer-prices del {
+    color: #777;
+    font-size: 0.95rem;
+  }
+
+  .offer-arrow {
+    color: #777;
+  }
+
+  .offer-price {
+    color: #c82027;
+    font-size: 2.1rem;
+    font-weight: 750;
+    line-height: 1.2;
+  }
+
+  .offer-discount {
+    color: #c82027;
+    font-size: 0.85rem;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .offer-timer {
+    margin: 0.55rem 0 0;
+    color: #666;
+    font-size: 0.85rem;
+  }
+
+  .offer-timer strong {
+    color: #c82027;
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+  }
+</style>
+
+<script>
+  const specialOfferCountdown = document.getElementById('special-offer-countdown');
+  const specialOfferDuration = (2 + Math.random() * 11) * 60 * 60 * 1_000;
+  const specialOfferEndsAt = Date.now() + specialOfferDuration;
+
+  function updateSpecialOfferCountdown() {
+    const remaining = Math.max(0, specialOfferEndsAt - Date.now());
+    const hours = Math.floor(remaining / 3_600_000);
+    const minutes = Math.floor((remaining % 3_600_000) / 60_000);
+    const seconds = Math.floor((remaining % 60_000) / 1_000);
+
+    specialOfferCountdown.textContent = [hours, minutes, seconds]
+      .map((part) => String(part).padStart(2, '0'))
+      .join(':');
+  }
+
+  updateSpecialOfferCountdown();
+  window.setInterval(updateSpecialOfferCountdown, 1_000);
+</script>
