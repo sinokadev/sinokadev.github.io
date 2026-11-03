@@ -1,0 +1,160 @@
+---
+title: "LLM 모델의 이름"
+pubDate: 2026-11-03T15:37:06+09:00
+description: ""
+---
+
+import PostLink from '../../components/PostLink.astro';
+import { Image } from 'astro:assets';
+import o1TweetImg from '../../assets/스크린샷_20261103_155927.png';
+
+세상에 LLM 모델이 정말 많다.
+
+이제는 AI = LLM 같은 느낌으로 쓰이다 보니 모든 것 뒤에는 LLM 모델이 있다.
+
+그러다 보니 LLM 산업이 엄청나게 발전했고, 모델도 정말 많다.
+
+## LLM
+
+LLM은 [large language model](https://en.wikipedia.org/wiki/Large_language_model)의 약자이다. 이게 어떻게 돌아가는 거냐면, 음.. LLM을 설명하는 글이므로 (내가 잘 모르기도 하고) LLM 모델 중 하나인 [Gemini](https://en.wikipedia.org/wiki/Google_Gemini) 3.6 Flash한테 설명을 맡기겠다.
+
+> 안녕! 바톤 터치받은 Gemini야. LLM이 내부에서 대체 어떻게 돌아가는지 쉽고 핵심만 딱 짚어서 설명해 줄게.
+> 
+> ---
+>
+> LLM의 기본 원리는 의외로 명확해. "지금까지 나온 문맥을 보고, 바로 다음에 올 가장 그럴듯한 단어(토큰)를 확률적으로 맞히는 엄청난 훈련을 거친 예측 엔진"이야.
+> 
+> 이 동작 방식은 크게 4단계 프로세스로 이루어져 있어:
+> 
+> 1. **쪼개기 (Tokenization)**
+> * 입력된 글자나 문장을 그대로 처리하는 대신, 의미 단위나 글자 조각(토큰)으로 다 쪼개고 숫자(ID)로 바꾸는 작업이야.
+> 
+> 
+> 2. **숫자에 의미와 위치 넣기 (Embedding & Positional Encoding)**
+> * 단순 숫자인 토큰에 수천 차원의 공간 좌표(벡터)를 부여해. 이 과정에서 단어 간의 유사성과 문장 내 순서·위치 정보가 포함돼.
+> 
+> 
+> 3. **문맥 파악하기 (Transformer & Self-Attention)**
+> * LLM의 핵심 두뇌인 **트랜스포머(Transformer)** 구조가 작동해. 단어 하나만 보는 게 아니라 문장 안의 모든 단어가 서로 어떤 관계를 맺고 있는지 계산해서 문맥을 깊게 이해하지.
+> 
+> 
+> 4. **다음 단어 예측하고 반복하기 (Prediction & Autoregressive Loop)**
+> * 문맥 정보를 바탕으로 어휘 사전에 있는 단어들 중 다음에 올 확률이 가장 높은 후보를 뽑아내. 그리고 완성된 단어를 다시 자기 입력에 붙여서 그다음 단어를 연달아 만드는 과정을 계속 반복하는 방식이야.
+> 
+> 
+> 
+> ---
+>
+> 쉽게 비유하자면, 세상의 수많은 문장을 읽고 익힌 끝에 "다음에 무슨 말이 나올지 기가 막히게 이어서 쓰는 스피드 퀴즈 달인"이라고 생각하면 돼!
+
+<img src="https://commons.wikimedia.org/wiki/Special:FilePath/The-Transformer-model-architecture.png" alt="트랜스포머 모델의 인코더와 디코더 구조" style="width: min(100%, 560px); height: auto;" />
+
+캬, 이거 봐라. LLM이 이렇게 발전했다. 설명은 잘 이해했을 거라고 믿는다. 아무튼 이런 구조로 작동하기 때문에 난 분명 LLM으로는 AGI를 이룰 수 없다고 생각한다. 아무튼, 이 글의 주제인 LLM 모델의 이름들에 대해 알아보겠다.
+
+## 작명
+
+옛날에는 작명이 아주 간단했다. 옛날이라고 하는 것도 참 이상하긴 하다. LLM이 막 시작된 지 아직 10년도 되지 않았다. [구글](https://en.wikipedia.org/wiki/Google)이 [트랜스포머 구조](https://en.wikipedia.org/wiki/Transformer_(deep_learning))를 발표한 2017년 이후로 LLM이 발전하기 시작했으니 아직 9년째다. 곧 10년 되겠네, 얼마나 남았는지는 <PostLink id="2026-10-31-2027년까지" /> 보세요.
+
+<img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d3/OpenAI_2017-22_logo.svg/960px-OpenAI_2017-22_logo.svg.png" alt="OpenAI 로고" style="width: 200px; height: auto;" />
+
+다시 본론으로 돌아와서, LLM이 대중에게 알려지게 된 가장 큰 계기인 [GPT-3.5](https://en.wikipedia.org/wiki/GPT-3)를 보겠다.[^1] **G**enerative **P**re-trained **T**ransformer 3.5! 끝! 그냥 약자다. 아무런 의미가 없다. 이게 뭔지 어떻게 만들었는지 그냥 그대로 설명해놨을 뿐이다. 이때는 LLM이라는 게 사람들한테 팔아먹으려고 만든 게 아니었다. 우리기술 이정도로 쩔어요 그냥 이런 거다. 그냥 학회 발표용 정도다. 그래서 ChatGPT도 처음에는 무료였다. 유료 티어가 없었다. 다들 GPT-3.5 시절을 기억할 것이다. 말은 사람같이 잘하는데 너무 멍청했다. 그때 한국에서 유행했던 게, "세종대왕 맥북프로 던짐 사건에 대해 알려줘"라고 물어보면 진짜 있던 사건인 것처럼 설명했었다. 그때 맥북 프로가 어딨냐 전기도 없던 시대에 말이다.
+
+아까 했던 설명을 이해한 사람이라면 왜 그런 현상이 일어나는지 이해할 것이다. LLM은 그냥 사람다운 문장을 뽑아내는 것에 불과하다. 아무튼, 다음 모델을 알아보겠다.
+
+<img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f0/Google_Bard_logo.svg/960px-Google_Bard_logo.svg.png" alt="Google Bard 로고" style="width: 100px; height: auto;" />
+
+GPT-3.5가 엄청나게 뜨고, 구글도 부랴부랴 채팅 형 AI 서비스이자 모델을 출시했다. 그거 이름이 Bard(바드)였다. 내 기억상에는 바드가 GPT보다 멍청했던 것 같다. 사실 멍청한 거로는 비슷한데, 말투가 조금 더 부자연스러웠다고 해야 할까? 아무튼 바드는 별로라는 평이 많았다.
+
+GPT는 그냥 학회 설명용 줄임말이었는데 드디어 뭐 이름이랄게 붙었다. Bard라니, 이게 무슨 뜻이지? 구글에 Bard를 쳤더니 구글 바드, 아니 지금은 Gemini다. 아무튼 제미나이가 설명해 줬다.
+
+> A bard most commonly refers to a historical or fictional poet, singer, or storyteller, though the term also applies to a digital archive service, a roleplaying class, or Google's former AI chatbot
+
+음유시인, 그러니까 이야기꾼이라는 뜻이란다. 꽤 어울리는 이름이라고 생각한다. 아무튼 이제는 제미나이가 되었다.
+
+그다음은 GPT-4, 와 이게 나올 때만 해도 완전 대박이라고 난리난리를 쳤었는데 이거도 이제 옛날 모델이다. 아니, 3년 전인데 왜 옛날 모델이야? GPT-4, 그냥 GPT의 4버전이라는 뜻이다. 뭐 의미 없다. 똑같다. 설명할 게 있나? 뭐 GPT-o1.. 아니 이거는 그냥 o1이구나, 아무튼 OpenAI o1이라는 모델도 있었다. **o**는 OpenAI를 뜻한다고 한다.
+
+<Image 
+  src={o1TweetImg} 
+  alt="o1 모델 o의 의미 트윗" 
+  width={500} 
+/>
+
+o1은 OpenAI에서 처음 만든 추론형 모델이라고 한다. 뭐, 아무튼 이 주제는 아니니까.
+
+모델이 너무 많아서 조금 헷갈린다. 이제 뭘 다뤄야 하지? 아 그래, Llama를 다뤄보겠다.
+
+<img src="https://thumb.wikimedia.org/wikipedia/en/thumb/0/01/Llama_logo.svg/960px-Llama_logo.svg.png" alt="Llama 로고" style="width: 200px; height: auto;" />
+<br />
+<img src="https://commons.wikimedia.org/wiki/Special:FilePath/Llama.jpeg" alt="동물 라마" style="width: min(100%, 300px); height: auto;" />
+
+[Meta](https://en.wikipedia.org/wiki/Meta_Platforms), 그러니까 페이스북에서 만든 AI 모델인데, **L**arge **La**nguage **M**odel **M**eta **A**I의 줄임말이라고 한다. 음.. 억지 아닌가? 아 물론 나도 억지 줄임말 작명을 해본 적이 있다. 나는 꽤 좋아하는 작명법이다. 아무튼 이때가 2023년인데, 음... 생각해보니 발전이 너무 빨라서 몇 월인지까지 써야 할 것 같다. 2023년 2월이다. 아무튼 이때까지도 아직 이름은 약자였지만, 그래도 뭔가 뜻이 생기기 시작했다. 그래도 Llama는 동물 이름이니까 그나마 낫다. 참고로 Bard와 GPT-4는 2023년 3월에 출시됐다.
+
+<img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8a/Claude_AI_logo.svg/960px-Claude_AI_logo.svg.png" alt="Claude 로고" style="width: 200px; height: auto;" />
+
+다음은 [Claude](https://en.wikipedia.org/wiki/Claude_(AI))다. [Anthropic](https://en.wikipedia.org/wiki/Anthropic)의 Claude. 앤트로픽은 초기부터 모델에 이름을 지어주는 거로 유명하다. 앤트로픽의 모델 작명은 클로드부터 시작된다. **드디어!** 약자가 아닌 작명이다. 2023년 3월 14일에 출시된 Claude라는 모델이 있다. Claude는 수학자 [Claude Shannon](https://en.wikipedia.org/wiki/Claude_Shannon)의 이름에서 따온 거다. 클로드 섀넌에게 경의를 표하기 위해 선택되었다고 한다.
+
+<img src="https://commons.wikimedia.org/wiki/Special:FilePath/Claude_Shannon_1958_MIT_portrait_cropped.jpg" alt="책상 앞에 앉아 있는 클로드 섀넌" style="width: min(100%, 260px); height: auto;" />
+
+이 사람이 뭐 대단한 사람이길래 모델 이름에 쓰냐 했더니, 음... 진짜 대단한 사람이다. 불 대수를 활용하는 법에 대해서 크게 기여했다고 한다. 아무튼 클로드는 모델 이름이 많다. Haiku, Sonnet, Opus, Fable, Mythos 뭐 되게 되게 많다. 뭔 뜻인지 잘 모르겠는데 Claude Sonnet 5.5한테 한번 물어보겠다.
+
+> 각각 문학 용어에서 따온 이름이야.
+> 
+> - **Haiku (하이쿠)**: 일본의 5-7-5 정형시로, 세계에서 가장 짧은 시 형식 중 하나야. 가장 작고 빠른 모델에 붙었어.
+> - **Sonnet (소네트)**: 14행으로 된 유럽의 정형시야. 셰익스피어가 유명하고, 하이쿠보다는 길고 본격적인 형식이라 중간급에 붙었어.
+> - **Opus (오푸스)**: 라틴어로 "작품"이라는 뜻이야. 음악에서 "작품번호"(Op. 27 같은)로 쓰고, 큰 대작을 가리킬 때도 써. 가장 큰 모델에 붙었어.
+> - **Mythos (뮈토스)**: 그리스어로 "이야기, 서사"라는 뜻이야. 신화(myth)의 어원이기도 해. 한 문화가 세계를 설명하는 근본 이야기를 가리키니까 하이쿠, 소네트, 대작보다 더 큰 스케일이야.
+> - **Fable (우화)**: 동물이 나오고 교훈으로 끝나는 짧은 이야기야. 이솝 우화가 대표적이지. 같은 모델에 안전장치를 더한 버전이라 "이야기" 계열 이름을 같이 쓴 것 같아.
+> 
+> 시 형식은 짧은 것에서 긴 것 순서로 하이쿠, 소네트, 대작이고, 모델 크기 순서도 똑같아. Mythos와 Fable은 이 흐름을 이어서 시를 넘어 이야기 세계로 간 셈이야.
+> 
+> 다만 Mythos와 Fable이 왜 이 이름인지는 내가 아는 한 Anthropic이 공식적으로 설명한 건 없어. 위 해석은 단어 뜻과 기존 패턴을 보고 하는 추측이야.
+
+뭐 그렇단다. Mythos는 보통 미토스라 부르고, Fable은 보통 페이블이라 부른다. 클로드는 옛날부터 글을 잘 쓰고 말을 자연스럽게 잘하는 거로 유명했다. 그리고 내 생각엔 LLM이 프로그래밍할 때 오버 엔지니어링 하는 문화(?)의 시초가 클로드인 것 같다. 옛날부터 클로드가 제일 비싸고 제일 성능 좋다고 유명했는데 예나 지금이나 성능 좋은 모델이 오버 엔지니어링 하는 건 똑같은 것 같다.
+
+생각해 보면 OpenAI가 자사 모델에 대한 정이 별로 없는 것 같다. 모델보다는 자기네들이 더 유명하길 원하는 것 같기도 하다. 왜냐하면 GPT의 로고는 없는데 OpenAI 로고는 있다. 아니, ChatGPT의 로고가 OpenAI의 로고랑 같고 GPT의 로고는 없다. 아니면 GPT가 OpenAI를 집어삼켜서 OpenAI = GPT 우리는 한 몸! 뭐 이런 느낌으로 브랜딩 하는걸까?? 아무튼 다음으로 넘어가자.
+
+<img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d9/Google_Gemini_logo_2025.svg/330px-Google_Gemini_logo_2025.svg.png" alt="Google Gemini 로고" style="width: 200px; height: auto;" />
+
+그 다음엔 [Gemini](https://en.wikipedia.org/wiki/Google_Gemini)가 있다. 제미나이라고 부른다. ~~잼민이라고도 부른다.~~ 솔직히 나는 처음에 제미나이 별로 안 좋아했다. 말을 잘 못했다. 약간 너무 로봇 같다고 해야 할까? 너무 친근하지를 못했다. 나는 LLM이랑 친구 먹으려고 쓰기 때문에 처음에는 제미나이를 안 썼다. 근데 지금은 또 많이 발전해서 사람처럼 잘 얘기한다. 다만 좀 문맥 파악을 못 하는 등 멍청한 부분이 있어서 아쉽다. 
+
+아무튼 제미나이 이름의 뜻을 알아보겠다. 제미나이는 라틴어로 쌍둥이자리라는 뜻이다.
+
+<img src="https://commons.wikimedia.org/wiki/Special:FilePath/Gemini_9a_spacecraft_on_display.jpg" alt="전시 중인 제미니 9A 우주선" style="width: min(100%, 560px); height: auto;" />
+
+원래 구글에는 [Google Brain](https://en.wikipedia.org/wiki/Google_Brain)과 DeepMind가 있었는데, 그 두 개가 합쳐져서 [Google DeepMind](https://en.wikipedia.org/wiki/Google_DeepMind)가 되었다. 그래서 구글의 두 쌍둥이 연구소가 손잡고 만들었다 해서 쌍둥이자리를 뜻하는 Gemini기도 하고, NASA의 [제미니 계획(Project Gemini)](https://en.wikipedia.org/wiki/Project_Gemini)의 오마주이기도 하다. 제미니 계획이 인간이 달에 도달하기 전(아폴로 계획 전) 우주유영, 도킹 기술 등을 실험하던 핵심 다리 프로젝트였는데 구글도 AGI라는 달에 도달하기 전 가장 중요한 발판이 되는 다리 같은 모델이어서 Gemini로 했다나 뭐라나... 아무튼 그렇다.
+
+제미나이 모델에도 이름이 많다. 제일 싸고 빠르고 멍청한 Flash-Lite, 적당한 Flash, 똑똑하다고 주장하지만 다른 건 다 3.5, 3.6인데 존나 업데이트 안 해줘서 아직도 3.1인 Pro, 그리고 Gemini 4 Argon이 있다. 또 있는데, 최근에 발표된 Carbon이라고 있다. Gemini Carbon 이딴거 만들 시간에 [Carbon](https://en.wikipedia.org/wiki/Carbon_(programming_language))이나 개발해서 빨리 출시하지 뭔 뻘짓을 하고 있는 건진 모르겠지만 아무튼 그렇다.
+
+<img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/0/03/Simple_Periodic_Table_Chart-blocks.svg/960px-Simple_Periodic_Table_Chart-blocks.svg.png" alt="원소 주기율표" style="width: min(100%, 560px); height: auto;" />
+
+Flash Pro 뭐 이런 건 그냥 영어 단어인데 Argon, Carbon은 무슨 뜻일까? Argon은 원자번호 18번 아르곤에서 따왔다. 당연히 발음도 아르곤이다. 아르곤이 기체 중에서 가장 안정적인 것처럼 일반적으로 쓰기에 제일 좋다 뭐 이런 뜻이란다. 그리고 구글은 공개된 제미나이 중에선 최고 성능이라고 주장한다. 난 안 써봐서 모르겠다. 얘기 들어보면 좋다는 것 같긴 하다. 근데 난 돈 없다. 안 써 퉤퉤. Carbon도 마찬가지고 원자번호 6번 탄소에서 따왔다. 이건 진짜 존나 좋단다. 아직 공개도 안 됐다. 보안, 추론 특화 모델이라는데 요즘 보안 특화 모델이 유행인가 보다. 클로드 미토스로부터 시작해서 GPT-6 Astra에 Carbon까지 무슨 죄다 보안 특화란다. 그래서 아직 일반 사용자들한텐 공개 안 하고 보안 업체에 먼저 써보게 줬다고 한다. 난 잘 모르겠다 알아서 하겠지 뭐.
+
+말 나온 김에 GPT-6 Astra 이 새끼 얘기를 해보자. 분명 GPT-5에 이제 진짜 AGI다 이지랄 해놓고 GPT-6 와서 다시 이건 진짜로 AGI다 뭐 이런다. 사실 찾아보면 GPT-5는 AGI로 가는 가장 큰 문턱을 넘었다 어쩌구 GPT-6는 이건 AGI다 어쩌구 하는데 내 생각에는 존나 상술 같다. 내가 말했다시피 나는 LLM으론 절대 AGI 못 간다고 생각한다. 근데 뭐가 AGI야 AGI는.
+
+본론으로 돌아가서 GPT-5까지 이름을 안 붙이던 OpenAI가 6버전에 와서야 Astra라는 이름을 붙였다. 음.. 사실 전에도 이름은 있었다. GPT-4는 Turbo, 4o도 있었고, mini에 Long Output 뭐 이런 거 많았다. 그리고 4.5는 Orion이었고, 5버전에선 mini, thinking, thinking mini, thinking nano, thinking pro, codex[^2], 5.1은 Reasoning, Pro, 5.2는 내부용으로 emperor, rockhopper, macaroni, mumble, olive-oil-cake, robin같은 이름이 있었다. 그리고 5.6에서는 드디어 Sol, Terra, Luna 같은 제대로 된 이름이 붙었다. 또한 Daybreak Blue, Red라는 보안용 파생품이나[^3] 비추론 모델인 Instant, 생명공학 특화 Rosalind라는 모델도 있다.
+
+<img src="https://commons.wikimedia.org/wiki/Special:FilePath/OpenAI_Logo.png" alt="OpenAI 로고" style="width: min(100%, 200px); height: auto;" />
+
+근데 이런 멋진 작명 체계를 처음 도입한 GPT-5는 2026년에 출시됐다. 남들 다 2023년부터 멋진 이름 달고 나오는데 OpenAI는 존나 늦었다. 근데 여기서 또 재밌는 게 있다. 2026년 9월에 출시된 GPT-6는 기본형이 Astra, 그리고 Sol, Luna, Terra 같은 게 있는 구조다. 드디어 기본형에도 이름을 붙여줬다. OpenAI도 이제야 모델에 정이 좀 붙은 걸까? 아니면 남들 다 하니까 지네들도 홍보용으로 멋진 이름 좀 붙여본 걸까? 난 잘 모르겠다.
+
+아무튼, 이름의 뜻을 알아보자. Astra는 라틴어로 별을 뜻하는 Astrum의 복수형이다. 그러니까, 이제 드디어 AGI라는 우주, 별에 다다랐다라는 존나 자신감 넘치는 명칭이다. 솔직히 나는 이게 AGI인지 모르겠다. 잘 하긴 하는데 여전히 존나 멍청하다. 오버엔지니어링 하는 경향은 여전하고, 기능 하나 만드는 데에 헬퍼 함수/헤더 100만 개를 만들며, 코드는 존나 따닥따닥 붙여 써서 이게 난독화된 코드인지 헷갈릴 정도다. 코드를 따닥따닥 붙여 쓰는 건 토큰을 절약하기 위한 Codex의 프롬프팅이란 말도 있던데 그냥 좆구리다. 물론 처음부터 끝까지 AI로만 코드를 짜는 Slop 프로젝트라면 문제 안 되지만 나는 그런 프로젝트를 하는 게 아니란 말이다.
+
+<img src="https://commons.wikimedia.org/wiki/Special:FilePath/Sun_earth_moon.svg" alt="태양, 지구, 달의 크기 비교 그림" style="width: min(100%, 200px); height: auto;" />
+
+자꾸 이야기가 딴 길로 새는데 미안하다. Sol은 라틴어로 태양, Terra는 라틴어로 지구, Luna는 라틴어로 달이란 뜻이다. 태양만큼 강력한 고성능 모델, 모두가 사용하는 평범한 지구 같은 모델, 쪼그마한 달 같은 경량 모델이란 뜻이다.
+
+Daybreak는 새벽녘이란 뜻인데 사이버 위협, 즉 어둠을 몰아내고 새로운 날을 밝힌다는 뜻이란다. 존나 겉멋만 잔뜩 들었다. 솔직히 그 정도인진 모르겠다.
+
+그다음 모델은 [Grok](https://en.wikipedia.org/wiki/Grok_(chatbot))이다. 일론 머스크답게 SF 소설에서 따왔다. [낯선 땅의 이방인(Stranger in a Strange Land)](https://en.wikipedia.org/wiki/Stranger_in_a_Strange_Land)이라는 소설이 있는데, 여기서 나오는 화성어인 Grok을 가져다 쓴 거다.
+
+솔직히 얘는 꽤나 맘에 들긴 했다. 말도 잘하고 코드도 잘 짜고 착하다. ~~근데 존나 비싸~~
+
+<img src="https://commons.wikimedia.org/wiki/Special:FilePath/Qwen_Logo.svg" alt="Qwen 로고" style="width: min(100%, 300px); height: auto;" />
+
+글이 너무 길어졌다. 사실 처음에는 [Qwen](https://en.wikipedia.org/wiki/Qwen)이란 오픈소스 모델을 <big>큐웬</big>이라 읽어야 하는지 <big>퀜</big>이라 읽어야 하는지 아니면 둘 다 틀렸는지가 궁금해서 찾아보다가 내 블로그에서 다루고 싶은 주제라서 쓰기 시작했다.
+
+근데 정작 오픈소스 모델은 딱 하나(Llama)밖에 못 다뤘다. GPT-OSS나 DeepSeek, Mistral, Gemma 같은 모델도 다뤄보고 싶은데 글이 너무 길기도 하고 나 바쁘다. 계속 이거 쓰고 있을 시간도 없고 그렇다고 나중에 올리기엔 그냥 빨리 좀 올리고 싶다. 그러니까 나머지는 다음에 다루겠다. 끝!
+
+[^1]: ChatGPT라고들 하는데 ChatGPT는 서비스고, 모델 이름은 GPT-3.5이다.
+[^2]: [Codex](https://en.wikipedia.org/wiki/OpenAI_Codex) 전용 모델
+[^3]: 잘은 모르겠는데 보안 특화 Cyber라는 모델이 있다. 뭔 차인진 모르겠음.

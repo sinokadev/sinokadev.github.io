@@ -181,3 +181,7 @@ hr {
     overflow-y: hidden;
   }
 }
+
+big {
+  font-size: 1.3em;
+}
