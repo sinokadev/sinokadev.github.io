@@ -10,6 +10,7 @@ const posts = (await getCollection('blog', ({ data }) => {
 })).sort(
     (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
+const publishedPostCount = posts.filter((post) => post.data.draft !== true).length;
 ---
 
 <Layout title={SITE_TITLE} description={SITE_DESCRIPTION}>
@@ -54,6 +55,12 @@ const posts = (await getCollection('blog', ({ data }) => {
 			font-size: 0.8rem;
 			font-weight: 400;
 		}
+
+		.post-count {
+			margin: 1.75rem 1.5rem 0.5rem;
+			color: var(--muted-text-color);
+			font-size: 0.9rem;
+		}
 	</style>
 
 	<section data-pagefind-ignore>
@@ -71,5 +78,6 @@ const posts = (await getCollection('blog', ({ data }) => {
 				))
 			}
 		</ul>
+		<p class="post-count">전체 포스트 {publishedPostCount}개</p>
 	</section>
 </Layout>
