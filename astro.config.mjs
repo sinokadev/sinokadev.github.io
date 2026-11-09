@@ -13,6 +13,8 @@ import rehypeKatex from 'rehype-katex';
 import rehypePrettyCode from 'rehype-pretty-code';
 import { remarkReadingTime } from './src/lib/remark-reading-time.mjs';
 
+import svelte from '@astrojs/svelte';
+
 export default defineConfig({
 
   site: 'https://sinoka.dev',
@@ -40,10 +42,7 @@ export default defineConfig({
       ],
     }),
   },
-  integrations: [
-    mdx(),
-    pagefind()
-  ],
+  integrations: [mdx(), pagefind(), svelte()],
   build: {
     inlineStylesheets: 'always',
   },

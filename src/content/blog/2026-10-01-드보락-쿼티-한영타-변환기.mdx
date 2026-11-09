@@ -5,11 +5,11 @@ description: ""
 tags: ["유틸리티"]
 ---
 
-import DvorakConverter from '../../components/DvorakConverter.astro';
+import DvorakConverter from '../../components/DvorakConverter.svelte';
 import PostLink from '../../components/PostLink.astro';
 
 콜맥을 배우기 시작했는데, 콜맥을 쿼티로 바꿔주는 앱은 없더라고요? 그래서 하나 만들어봤습니다.
 
 <main>
-  <DvorakConverter />
+  <DvorakConverter client:load />
 </main> 
