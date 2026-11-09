@@ -1,9 +1,0 @@
----
-import BaseLayout from '../layouts/Layout.astro';
-import Search from "astro-pagefind/components/Search.astro";
-import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
----
-<BaseLayout title={`검색 - ${SITE_TITLE}`} description={SITE_DESCRIPTION}>
-    <h1>검색</h1>
-    <Search id="search" className="pagefind-ui" uiOptions={{ showImages: false }} />
-</BaseLayout>
