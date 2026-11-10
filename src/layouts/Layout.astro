@@ -8,6 +8,15 @@ const { title, description, pagefindIgnore = false } = Astro.props;
     <head>
         <BaseHead title={title} description={description} />
         <slot name="head" />
+        <style>
+        main {
+			width: 720px;
+			max-width: calc(100% - 2em);
+			margin: 0 auto auto auto;
+			padding: 1em;
+			color: rgb(var(--gray-dark));
+		}
+        </style>
     </head>
     <body>
         <div class="wrapper">
