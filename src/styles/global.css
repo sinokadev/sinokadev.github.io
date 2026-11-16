@@ -155,6 +155,7 @@ main :where(li + li) {
 
 header {
   margin-top: 2rem;
+  margin-bottom: 1rem;
 }
 
 pre {
