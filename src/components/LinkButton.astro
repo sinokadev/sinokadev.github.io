@@ -15,26 +15,24 @@ const targetHref = link ?? href;
 
 <style>
 .link-button {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    
-    background-color: var(--color-link-button-bg);
-    
-    line-height: 1; 
-    
-    padding: 0.45rem 0.5rem; 
-    
-    border-radius: 4px;
-    font-size: 0.85rem;
-    color: var(--color-black);
-    text-decoration: none;
-    transition: background-color 0.2s ease;
-    cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  
+  background-color: var(--color-link-button-bg) !important;
+  
+  line-height: 1; 
+  padding: 0.45rem 0.5rem; 
+  border-radius: 4px;
+  font-size: 0.85rem;
+  color: var(--color-black) !important;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
 
-    margin-right: 0.5rem;
-    margin-bottom: 0.5rem;
-  }
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+}
 
   .link-button:hover {
     background-color: var(--color-link-button-hover-bg);
