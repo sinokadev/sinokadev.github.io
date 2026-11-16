@@ -16,14 +16,19 @@ import HeaderLink from './HeaderLink.astro';
         <div class="internal-links" id="nav-menu">
             <HeaderLink href="/" class="mobile-home">Home</HeaderLink>
             <HeaderLink href="/blog">Blog</HeaderLink>
-            <HeaderLink href="/about">About</HeaderLink>
             <HeaderLink href="/tags">Tags</HeaderLink>
+            <HeaderLink href="/about">About</HeaderLink>
         </div>
     </nav>
 </header>
 
 <style>
-    /* 기존 스타일 유지 및 보완 */
+<style>
+    header {
+        /* 헤더 전체 높이를 결정하는 상하 여백 (더 얇게 원하면 0.6rem으로 조절) */
+        padding: 0.85rem 0;
+    }
+
     nav {
         display: flex;
         align-items: center;
@@ -31,17 +36,31 @@ import HeaderLink from './HeaderLink.astro';
         white-space: nowrap;
         width: 90%;      
         max-width: 800px;
-        margin: 0 auto 30px;
-        position: relative; /* 모바일 메뉴 위치 기준 */
+        margin: 0 auto;
+        position: relative;
+    }
+
+    /* 전체 폰트 크기를 한 단계 축소 */
+    nav * {
+        font-size: 0.9rem;
+    }
+
+    /* h2 브라우저 기본 마진 제거 (헤더가 두꺼웠던 주범!) */
+    nav h2 {
+        margin: 0;
+        line-height: 1;
     }
 
     nav h2 a {
+        font-size: 0.95rem;
+        font-weight: 600;
         color: var(--text-color);
         text-decoration: none;
     }
 
     .internal-links {
         display: flex;
+        gap: 1rem; /* margin 대신 gap으로 깔끔하게 간격 조절 */
     }
 
     .internal-links :global(.mobile-home) {
@@ -50,7 +69,6 @@ import HeaderLink from './HeaderLink.astro';
 
     .internal-links :global(a) {
         color: var(--link-hover-color);
-        margin: 5px 10px;
         text-decoration: none;
     }
 
@@ -59,7 +77,7 @@ import HeaderLink from './HeaderLink.astro';
     }
 
     .internal-links :global(a.active) {
-        font-weight: bolder;
+        font-weight: 600;
         color: #363636;
     }
 
@@ -68,8 +86,8 @@ import HeaderLink from './HeaderLink.astro';
         display: none;
         flex-direction: column;
         justify-content: space-around;
-        width: 24px;
-        height: 20px;
+        width: 20px;  /* 아이콘도 살짝 콤팩트하게 축소 */
+        height: 16px;
         background: transparent;
         border: none;
         cursor: pointer;
@@ -77,38 +95,39 @@ import HeaderLink from './HeaderLink.astro';
     }
 
     #menu-toggle span {
-        width: 24px;
+        width: 20px;
         height: 2px;
         background-color: var(--text-color);
         transition: all 0.3s ease;
     }
 
-    /* 모바일 반응형 스타일 (768px 이하) */
+    /* 모바일 반응형 스타일 */
     @media (max-width: 720px) {
         #menu-toggle {
-            display: flex; /* 모바일에서 버튼 표시 */
+            display: flex;
         }
 
         .internal-links {
-            display: none; /* 기본적으로 메뉴 숨김 */
+            display: none;
             flex-direction: column;
+            gap: 0;
             position: absolute;
-            top: 100%;
+            top: calc(100% + 0.85rem); /* 헤더 패딩만큼 아래에서 열리도록 조정 */
             left: 0;
             width: 100%;
-            background-color: #fff; /* 배경색은 사이트 테마에 맞춰 수정하세요 */
-            padding: 1rem 0;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            background-color: #fff;
+            padding: 0.75rem 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
             z-index: 10;
         }
 
-        /* show 클래스가 추가되면 메뉴 표시 */
         .internal-links.show {
             display: flex;
         }
 
         .internal-links :global(a) {
-            margin: 10px 0;
+            padding: 0.6rem 0;
             text-align: center;
             width: 100%;
         }

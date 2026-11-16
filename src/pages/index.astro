@@ -1,18 +1,17 @@
 ---
+import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
+import LinkButton from '../components/LinkButton.astro';
+import PostList from '../components/PostList.astro';
 import { Image } from 'astro:assets';
 import myHeroImage from '../assets/IMG_0340.png';
+import { ArrowUpRight, KeyRound, Rss } from '@lucide/astro';
+
+const recentPosts = (await getCollection('blog', ({ data }) => data.draft !== true))
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+	.slice(0, 3);
 ---
 <Layout title="SinokaDev" description="시노카의 이모저모">
-	<h1>SinokaDev🧊</h1>
-	<p>
-		SinokaDev의 블로그에 오신것을 환영합니다!
-	</p>
-
-	<p>
-	<a href="/pgp">PGP Key</a>
-	</p>
-
 	<Image 
 		src={myHeroImage} 
 		widths={[400, 616, 800, 1200, 2400]} 
@@ -22,5 +21,85 @@ import myHeroImage from '../assets/IMG_0340.png';
 		loading="eager"
 		fetchpriority="high"
 		class="w-full h-auto max-w-[800px]" 
+		style="margin-top: 0;"
 	/>
+	<div class="nickname-box">
+		<p>SinokaDev🧊</p>
+		<div class="nickname-actions">
+			<LinkButton link="/pgp"><KeyRound size={16} aria-hidden="true" /> PGP Key</LinkButton>
+			<LinkButton link="/rss.xml"><Rss size={16} aria-hidden="true" /> RSS</LinkButton>
+		</div>
+	</div>
+	<p style="color: #626262;">제 블로그에 오신것을 환영합니다!</p>
+
+	<section class="recent-posts" aria-labelledby="recent-posts-heading">
+		<div class="recent-heading">
+			<h2 id="recent-posts-heading">최근 글</h2>
+			<a href="/blog/" class="all-posts-link">
+				모든 글 보기 <ArrowUpRight size={16} aria-hidden="true" />
+			</a>
+		</div>
+		<PostList posts={recentPosts} />
+	</section>
+
 </Layout>
+
+<style>
+	.nickname-box {
+		display: flex;
+		align-items: center;
+		margin-bottom: 0.3rem;
+	}
+
+	.nickname-box p {
+		margin: 0;
+		font-weight: bold;
+		font-size: 1.4rem;
+	}
+
+	.nickname-actions {
+		display: flex;
+		gap: 0.5rem;
+		margin-left: auto;
+	}
+
+	:global(.nickname-actions .link-button) {
+		margin-right: 0;
+	}
+
+	.recent-posts {
+		margin-top: 2rem;
+		padding-top: 1.25rem;
+		border-top: 1px solid var(--bg-color-two);
+	}
+
+	.recent-heading {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+	}
+
+	.recent-heading h2 {
+		margin: 0;
+		font-size: 1.25rem;
+	}
+
+	.all-posts-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.2rem;
+		color: var(--muted-text-color);
+		font-size: 0.85rem;
+		text-decoration: none;
+		white-space: nowrap;
+	}
+
+	.all-posts-link:hover {
+		color: var(--text-color);
+	}
+	
+	p {
+		margin: 0;
+	}
+</style>

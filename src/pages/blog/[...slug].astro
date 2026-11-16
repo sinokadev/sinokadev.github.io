@@ -1,6 +1,7 @@
 ---
 import { type CollectionEntry, getCollection, render } from 'astro:content';
 import BlogPost from '../../layouts/BlogPost.astro';
+import LinkButton from '../../components/LinkButton.astro';
 
 export async function getStaticPaths() {
     const posts = await getCollection('blog', ({ data }) => {
@@ -29,9 +30,9 @@ const { tags = [] } = post.data;
     {tags.length > 0 && (
         <div class="post-tags">
             {tags.map((tag) => (
-                <a href={`/tags/${tag}`} class="tag">
+                <LinkButton link={`/tags/${tag}`}>
                     #{tag}
-                </a>
+                </LinkButton>
             ))}
         </div>
     )}
@@ -45,17 +46,5 @@ const { tags = [] } = post.data;
         flex-wrap: wrap;
         gap: 0.5rem;
         margin-bottom: 1rem; /* 본문과 간격 조절 */
-    }
-    .post-tags .tag {
-        background-color: #e9e9e9;
-        padding: 0.2rem 0.7rem;
-        border-radius: 4px;
-        font-size: 0.85rem; 
-        color: #000 !important;
-        text-decoration: none;
-        transition: background 0.2s;
-    }
-    .post-tags .tag:hover {
-        background-color: #e1e1e1;
     }
 </style>

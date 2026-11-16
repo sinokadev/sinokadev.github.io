@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content';
 import { SITE_TITLE } from '../../consts';
 import Layout from '../../layouts/Layout.astro';
-import FormattedDate from '../../components/FormattedDate.astro';
+import PostList from '../../components/PostList.astro';
 
 // 1. 모든 태그에 대한 정적 경로 생성
 export async function getStaticPaths() {
@@ -35,35 +35,9 @@ const pageTitle = `#${tag} 포스트 | ${SITE_TITLE}`;
 
 <Layout title={pageTitle} description={`${tag} 태그와 관련된 글 목록입니다.`}>
 
-	<h1>#{tag} 태그가 달린 글</h1>
+	<h1 style="font-size: 1rem;">#{tag} 태그가 달린 글</h1>
 
-	<ul class="post-list">
-		{sortedPosts.map((post) => (
-			<li>
-				<div class="date">
-					<FormattedDate date={post.data.pubDate} />
-				</div>
-				<a href={`/blog/${post.id}/`}>{post.data.title}</a>
-			</li>
-		))}
-	</ul>
+	<PostList posts={sortedPosts} />
 
 	<a href="/tags/">모든 태그 보기</a>
 </Layout>
-
-<style>
-	.post-list li {
-		margin-bottom: 1rem;
-	}
-
-	.post-list a {
-		text-decoration: none;
-	}
-
-	.date {
-		margin-bottom: 0.4rem;
-		color: var(--muted-text-color);
-		font-size: 0.8rem;
-		font-weight: 400;
-	}
-</style>
