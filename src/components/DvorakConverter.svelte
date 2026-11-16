@@ -292,11 +292,11 @@
 
 <style>
   .kbd-converter {
-    --kbd-bg: #ffffff;
-    --kbd-fg: #1f2328;
-    --kbd-border: #d0d7de;
-    --kbd-accent: #3b82f6;
-    --kbd-muted: #656d76;
+    --kbd-bg: var(--kbd-bg-light);
+    --kbd-fg: var(--kbd-fg-light);
+    --kbd-border: var(--kbd-border-light);
+    --kbd-accent: var(--kbd-accent-color);
+    --kbd-muted: var(--kbd-muted-light);
     max-width: 720px;
     margin: 0 auto;
     padding: 1.25rem;
@@ -304,10 +304,10 @@
   }
   @media (prefers-color-scheme: dark) {
     .kbd-converter {
-      --kbd-bg: #161b22;
-      --kbd-fg: #e6edf3;
-      --kbd-border: #30363d;
-      --kbd-muted: #8b949e;
+      --kbd-bg: var(--kbd-bg-dark);
+      --kbd-fg: var(--kbd-fg-dark);
+      --kbd-border: var(--kbd-border-dark);
+      --kbd-muted: var(--kbd-muted-dark);
     }
   }
   h2 {

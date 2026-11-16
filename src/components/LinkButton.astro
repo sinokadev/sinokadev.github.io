@@ -19,7 +19,7 @@ const targetHref = link ?? href;
     align-items: center;
     gap: 0.4rem;
     
-    background-color: #e9e9e9;
+    background-color: var(--color-link-button-bg);
     
     line-height: 1; 
     
@@ -27,7 +27,7 @@ const targetHref = link ?? href;
     
     border-radius: 4px;
     font-size: 0.85rem;
-    color: #000;
+    color: var(--color-black);
     text-decoration: none;
     transition: background-color 0.2s ease;
     cursor: pointer;
@@ -36,7 +36,7 @@ const targetHref = link ?? href;
   }
 
   .link-button:hover {
-    background-color: #e1e1e1;
+    background-color: var(--color-link-button-hover-bg);
   }
 
 </style>

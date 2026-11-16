@@ -57,15 +57,15 @@
     max-width: 26rem;
     margin: 1.5rem auto;
     padding: 0.8rem 0 0.7rem;
-    border-top: 2px solid #c82027;
-    border-bottom: 1px solid #d8d2cc;
+    border-top: 2px solid var(--color-offer-accent);
+    border-bottom: 1px solid var(--color-border-light);
     color: inherit;
     text-align: center;
   }
 
   .offer-title {
     margin: 0 0 0.4rem;
-    color: #555;
+    color: var(--color-gray-700);
     font-size: 0.9rem;
     font-weight: 600;
   }
@@ -79,23 +79,23 @@
   }
 
   .offer-prices del {
-    color: #777;
+    color: var(--color-gray-500);
     font-size: 0.95rem;
   }
 
   .offer-arrow {
-    color: #777;
+    color: var(--color-gray-500);
   }
 
   .offer-price {
-    color: #c82027;
+    color: var(--color-offer-accent);
     font-size: 2.1rem;
     font-weight: 750;
     line-height: 1.2;
   }
 
   .offer-discount {
-    color: #c82027;
+    color: var(--color-offer-accent);
     font-size: 0.85rem;
     font-weight: 700;
     white-space: nowrap;
@@ -103,12 +103,12 @@
 
   .offer-timer {
     margin: 0.55rem 0 0;
-    color: #666;
+    color: var(--color-gray-600);
     font-size: 0.85rem;
   }
 
   .offer-timer strong {
-    color: #c82027;
+    color: var(--color-offer-accent);
     font-variant-numeric: tabular-nums;
     font-weight: 700;
   }

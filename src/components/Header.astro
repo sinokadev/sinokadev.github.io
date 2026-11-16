@@ -60,7 +60,7 @@ import HeaderLink from './HeaderLink.astro';
 
     .internal-links :global(a.active) {
         font-weight: bolder;
-        color: #363636;
+        color: var(--text-color);
     }
 
     /* 햄버거 버튼 스타일 (기본 숨김) */
@@ -96,9 +96,9 @@ import HeaderLink from './HeaderLink.astro';
             top: 100%;
             left: 0;
             width: 100%;
-            background-color: #fff; /* 배경색은 사이트 테마에 맞춰 수정하세요 */
+            background-color: var(--color-white);
             padding: 1rem 0;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px var(--color-menu-shadow);
             z-index: 10;
         }
 
