@@ -328,7 +328,7 @@
     margin-bottom: 0.35rem;
   }
   label {
-    font-weight: 600;
+    font-weight: var(--font-weight-dvorak-label);
     font-size: 0.95rem;
   }
   .btns {

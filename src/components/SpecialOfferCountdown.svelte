@@ -67,7 +67,7 @@
     margin: 0 0 0.4rem;
     color: var(--color-gray-700);
     font-size: 0.9rem;
-    font-weight: 600;
+    font-weight: var(--font-weight-offer-title);
   }
 
   .offer-prices {
@@ -90,14 +90,14 @@
   .offer-price {
     color: var(--color-offer-accent);
     font-size: 2.1rem;
-    font-weight: 750;
+    font-weight: var(--font-weight-offer-price);
     line-height: 1.2;
   }
 
   .offer-discount {
     color: var(--color-offer-accent);
     font-size: 0.85rem;
-    font-weight: 700;
+    font-weight: var(--font-weight-offer-discount);
     white-space: nowrap;
   }
 
@@ -110,6 +110,6 @@
   .offer-timer strong {
     color: var(--color-offer-accent);
     font-variant-numeric: tabular-nums;
-    font-weight: 700;
+    font-weight: var(--font-weight-offer-timer);
   }
 </style>

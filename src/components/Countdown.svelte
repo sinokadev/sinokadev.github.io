@@ -80,13 +80,13 @@
   .countdown-label {
     margin: 0 0 0.5rem;
     font-size: 1.1rem;
-    font-weight: 600;
+    font-weight: var(--font-weight-countdown-label);
     opacity: 0.9;
   }
   .countdown-number {
     margin: 0;
     font-size: clamp(3rem, 14vw, 7rem);
-    font-weight: 800;
+    font-weight: var(--font-weight-countdown-value);
     line-height: 1.1;
     font-variant-numeric: tabular-nums;
   }

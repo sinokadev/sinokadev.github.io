@@ -1,3 +1,5 @@
+@import "./reset.css";
+
 :root {
   --text-color: #363636;
   --link-color: #535353;
@@ -46,10 +48,44 @@
   --kbd-fg-dark: #e6edf3;
   --kbd-border-dark: #30363d;
   --kbd-muted-dark: #8b949e;
+  --font-weight-heading: 300; /* 이전: 브라우저 기본값 bold */
+  --font-weight-emphasis: bolder; /* 이전: 브라우저 기본값 bolder */
+  --font-weight-link: 300; /* 이전: 600 */
+  --font-weight-footer-link: 300; /* 이전: 700 */
+  --font-weight-figcaption: 400; /* 이전: 400 */
+  --font-weight-table-header: 600; /* 이전: 600 */
+  --font-weight-post-description: 400; /* 이전: 400 */
+  --font-weight-post-heading: 300; /* 이전: normal */
+  --font-weight-post-date: 400; /* 이전: 400 */
+  --font-weight-footer-copy: 700; /* 이전: 700 */
+  --font-weight-countdown-label: 600; /* 이전: 600 */
+  --font-weight-countdown-value: 800; /* 이전: 800 */
+  --font-weight-offer-title: 600; /* 이전: 600 */
+  --font-weight-offer-price: 750; /* 이전: 750 */
+  --font-weight-offer-discount: 700; /* 이전: 700 */
+  --font-weight-offer-timer: 700; /* 이전: 700 */
+  --font-weight-header-title: lighter; /* 이전: 링크 기본값 600 */
+  --font-weight-header-link: lighter; /* 이전: 링크 기본값 600 */
+  --font-weight-header-active-link: 300; /* 이전: bolder */
+  --font-weight-dvorak-label: 600; /* 이전: 600 */
 }
 
 html {
   scrollbar-gutter: stable;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: var(--font-weight-heading);
+}
+
+strong,
+b {
+  font-weight: var(--font-weight-emphasis);
 }
 
 body {
@@ -84,7 +120,7 @@ nav ul a {
 }
 
 a {
-  font-weight: 600;
+  font-weight: var(--font-weight-link);
   transition: color 0.1s ease;
   color: var(--text-color);
 }
@@ -101,11 +137,30 @@ main {
   text-align: left;
 }
 
+main :where(h2, h3, h4, h5, h6) {
+  margin-block: 1.25em 0.5em;
+}
+
+main :where(p, ul, ol) {
+  margin-block: 1em;
+}
+
+main :where(ul, ol) {
+  padding-inline-start: 1.5em;
+}
+
+main :where(li + li) {
+  margin-block-start: 0.25em;
+}
+
 header {
   margin-top: 1rem;
 }
 
 pre {
+  width: 100%;
+  max-inline-size: 100%;
+  overflow-x: auto;
   border-radius: var(--radius-pre);
 
   padding: 1em;
@@ -137,7 +192,7 @@ figcaption {
   text-align: center;
   color: var(--link-color);
   font-size: 0.9em;
-  font-weight: 400;
+  font-weight: var(--font-weight-figcaption);
   line-height: 1.5;
   overflow-wrap: anywhere;
 }
@@ -197,7 +252,7 @@ td {
 }
 
 th {
-  font-weight: 600;
+  font-weight: var(--font-weight-table-header);
   color: var(--color-gray-900);
 }
 

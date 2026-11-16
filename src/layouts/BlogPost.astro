@@ -14,7 +14,7 @@ const giscusTheme = import.meta.env.DEV ? 'light' : 'https://sinoka.dev/giscus-t
 <Layout title={title} description={description} pagefindIgnore={draft}>
 	<style slot="head">
 		main {
-			width: calc(100% - 2em);
+			width: 100%;
 			max-width: 100%;
 		}
 		.hero-image {
@@ -34,7 +34,7 @@ const giscusTheme = import.meta.env.DEV ? 'light' : 'https://sinoka.dev/giscus-t
 			margin: 0.1em 0 0.4em;
 			color: var(--color-gray-500);
 			font-size: 1.05rem;
-			font-weight: 400;
+			font-weight: var(--font-weight-post-description);
 			line-height: 1.7;
 			word-break: keep-all;
 		}
@@ -54,6 +54,9 @@ const giscusTheme = import.meta.env.DEV ? 'light' : 'https://sinoka.dev/giscus-t
 		.post-content :global(a:hover) {
 			color: var(--color-link-post-hover);
 		}
+		.prose :global(.giscus) {
+			margin-top: 2rem;
+		}
 
 		hr {
 			border: 0;
@@ -66,7 +69,7 @@ const giscusTheme = import.meta.env.DEV ? 'light' : 'https://sinoka.dev/giscus-t
 		h2 {
 			font-size: 0.9rem;
 			color: var(--color-heading-muted);
-			font-weight: normal;
+			font-weight: var(--font-weight-post-heading);
 		}
 	</style>
 
