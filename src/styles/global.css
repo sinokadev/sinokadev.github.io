@@ -1,4 +1,5 @@
 @import "./reset.css";
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
 
 :root {
   --text-color: #363636;
@@ -48,14 +49,15 @@
   --kbd-fg-dark: #e6edf3;
   --kbd-border-dark: #30363d;
   --kbd-muted-dark: #8b949e;
-  --font-weight-heading: 300; /* 이전: 브라우저 기본값 bold */
+  --font-weight-heading: 500; /* 이전: 브라우저 기본값 bold */
   --font-weight-emphasis: bolder; /* 이전: 브라우저 기본값 bolder */
-  --font-weight-link: 300; /* 이전: 600 */
-  --font-weight-footer-link: 300; /* 이전: 700 */
+  --font-weight-home-site-name: 600; /* 이전: bold */
+  --font-weight-link: 400; /* 이전: 600 */
+  --font-weight-footer-link: 400; /* 이전: 700 */
   --font-weight-figcaption: 400; /* 이전: 400 */
   --font-weight-table-header: 600; /* 이전: 600 */
   --font-weight-post-description: 400; /* 이전: 400 */
-  --font-weight-post-heading: 300; /* 이전: normal */
+  --font-weight-post-heading: 400; /* 이전: normal */
   --font-weight-post-date: 400; /* 이전: 400 */
   --font-weight-footer-copy: 700; /* 이전: 700 */
   --font-weight-countdown-label: 600; /* 이전: 600 */
@@ -64,9 +66,9 @@
   --font-weight-offer-price: 750; /* 이전: 750 */
   --font-weight-offer-discount: 700; /* 이전: 700 */
   --font-weight-offer-timer: 700; /* 이전: 700 */
-  --font-weight-header-title: lighter; /* 이전: 링크 기본값 600 */
-  --font-weight-header-link: lighter; /* 이전: 링크 기본값 600 */
-  --font-weight-header-active-link: 300; /* 이전: bolder */
+  --font-weight-header-title: 500; /* 이전: 링크 기본값 600 */
+  --font-weight-header-link: 400; /* 이전: 링크 기본값 600 */
+  --font-weight-header-active-link: 400; /* 이전: bolder */
   --font-weight-dvorak-label: 600; /* 이전: 600 */
 }
 
@@ -94,7 +96,7 @@ body {
   background-color: var(--bg-color);
   color: var(--text-color);
   text-align: center;
-  font-family: ui-sans-serif, sans-serif, system-ui, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  font-family: "Pretendard", ui-sans-serif, sans-serif, system-ui, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   
   /* 스티키 푸터를 위한 엔진 */
   display: flex;
@@ -166,7 +168,7 @@ pre {
   padding: 1em;
 }
 img, image {
-  margin: 1rem auto;
+  margin: 0.1rem auto;
   display: block;
   
   /* 핵심 수정 부분 */

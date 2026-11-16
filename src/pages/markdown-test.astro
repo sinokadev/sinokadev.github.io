@@ -1,0 +1,13 @@
+---
+import BlogPost from '../layouts/BlogPost.astro';
+import MarkdownFeatureTest from '../components/MarkdownFeatureTest.md';
+---
+
+<BlogPost
+	title="Markdown 기능 테스트"
+	description="Markdown, GFM, 수식, 코드 렌더링과 다국어 글꼴을 확인하는 숨겨진 테스트 페이지입니다."
+	pubDate={new Date('2026-11-17')}
+	noindex
+>
+	<MarkdownFeatureTest />
+</BlogPost>

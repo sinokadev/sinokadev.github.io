@@ -5,13 +5,13 @@ import FormattedDate from '../components/FormattedDate.astro';
 import Layout from './Layout.astro';
 import "katex/dist/katex.min.css";
 
-type Props = CollectionEntry<'blog'>['data'] & { minutesRead?: string };
+type Props = CollectionEntry<'blog'>['data'] & { minutesRead?: string; noindex?: boolean };
 
-const { title, description, pubDate, updatedDate, heroImage, minutesRead, draft = false } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, minutesRead, draft = false, noindex = false } = Astro.props;
 const giscusTheme = import.meta.env.DEV ? 'light' : 'https://sinoka.dev/giscus-theme.css';
 ---
 
-<Layout title={title} description={description} pagefindIgnore={draft}>
+<Layout title={title} description={description} pagefindIgnore={draft || noindex}>
 	<style slot="head">
 		main {
 			width: 100%;
@@ -72,6 +72,7 @@ const giscusTheme = import.meta.env.DEV ? 'light' : 'https://sinoka.dev/giscus-t
 			font-weight: var(--font-weight-post-heading);
 		}
 	</style>
+	{noindex && <meta slot="head" name="robots" content="noindex, nofollow" />}
 
 	<article>
 		<div class="hero-image">
