@@ -340,7 +340,7 @@
     font-size: 0.8rem;
     padding: 0.2rem 0.6rem;
     border: 1px solid var(--kbd-border);
-    border-radius: 6px;
+    border-radius: var(--radius-dvorak-button);
     background: transparent;
     color: var(--kbd-fg);
     cursor: pointer;
@@ -360,7 +360,7 @@
     background: var(--kbd-bg);
     color: var(--kbd-fg);
     border: 1px solid var(--kbd-border);
-    border-radius: 8px;
+    border-radius: var(--radius-dvorak-textarea);
     resize: vertical;
   }
   textarea:focus {
