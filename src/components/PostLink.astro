@@ -7,9 +7,10 @@ interface Props extends HTMLAttributes<'a'> {
 	slug?: string;
 	name?: string;
 	post?: string;
+	text?: string;
 }
 
-const { id, slug, name, post, class: className, ...rest } = Astro.props;
+const { id, slug, name, post, text, class: className, ...rest } = Astro.props;
 
 let target = id ?? slug ?? name ?? post ?? '';
 
@@ -32,6 +33,7 @@ const hasSlot = Astro.slots.has('default');
 const postSlug = postEntry?.id ?? target;
 const displayTitle = postEntry?.data?.title ?? target;
 const href = postSlug ? `/blog/${postSlug}/` : '#';
+const displayText = text !== undefined ? text : displayTitle;
 ---
 
-<a href={href} class:list={[className]} {...rest}>{hasSlot ? <slot /> : displayTitle}</a>
+<a href={href} class:list={[className]} {...rest}>{hasSlot ? <slot /> : displayText}</a>

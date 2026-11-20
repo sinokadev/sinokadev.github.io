@@ -12,6 +12,8 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeKatex from 'rehype-katex';
 import rehypePrettyCode from 'rehype-pretty-code';
 import { remarkReadingTime } from './src/lib/remark-reading-time.mjs';
+import { remarkPostLink } from './src/lib/remark-post-link.mjs';
+import { rehypePostLink } from './src/lib/rehype-post-link.mjs';
 
 import svelte from '@astrojs/svelte';
 
@@ -27,8 +29,10 @@ export default defineConfig({
         remarkMath,
         [remarkToc, { heading: '목차' }],
         remarkReadingTime,
+        remarkPostLink,
       ],
       rehypePlugins: [
+        rehypePostLink,
         rehypeKatex,
         rehypeSlug,
         rehypeAutolinkHeadings,
