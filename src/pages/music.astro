@@ -189,6 +189,7 @@ const musicFolders = [...folders.entries()]
 const totalTracks = musicFolders.reduce((count, folder) => count + folder.files.length, 0);
 const embeddedMusic = musicEmbeds.map(createMusicEmbed);
 const totalEmbeddedPlayers = embeddedMusic.reduce((count, music) => count + music.players.length, 0);
+const hasMusic = musicFolders.length > 0 || embeddedMusic.length > 0;
 ---
 
 <Layout title="음악" description="폴더별로 모아 둔 음악을 감상해 보세요.">
@@ -197,97 +198,112 @@ const totalEmbeddedPlayers = embeddedMusic.reduce((count, music) => count + musi
 		<p class="summary">{musicFolders.length}개 폴더 · 총 {totalTracks + totalEmbeddedPlayers}개</p>
 	</header>
 
-	{musicFolders.length > 0 || embeddedMusic.length > 0 ? (
-		<div class="folder-list">
-			{musicFolders.map(({ name: folder, description, date, files }, index) => (
-				<>
-					<section class="folder" aria-labelledby={`folder-${folder}`}>
-						<MusicEntryHeading
-							title={folder}
-							date={date}
-							meta={`${files.length}곡`}
-							description={description}
-							id={`folder-${folder}`}
-						/>
-						<ul>
-							{files.map((file) => (
-								<li>
-									{['MID', 'MIDI'].includes(file.format) ? (
-										<>
-											{file.date && <p class="music-date"><FormattedDate date={file.date} /></p>}
-											<p class="download-title">{file.name}</p>
-											{file.description && <p class="track-description">{file.description}</p>}
-											<a class="download" href={file.src} download>파일 다운로드</a>
-										</>
-									) : (
-										<AudioPlayer
-											src={file.src}
-											title={file.name}
-											description={file.description}
-											date={file.date}
-										/>
-									)}
-								</li>
-							))}
-						</ul>
-					</section>
-					{(index < musicFolders.length - 1 || embeddedMusic.length > 0) && (
-						<hr class="folder-divider" aria-hidden="true" />
-					)}
-				</>
-			))}
+	{hasMusic ? (
+		<div class="music-layout">
+			<nav class="music-toc" aria-label="음악 목차">
+				<p>목차</p>
+				<ul>
+					{musicFolders.map(({ name }, index) => (
+						<li><a href={`#music-folder-${index}`}>{name}</a></li>
+					))}
+					{embeddedMusic.map((music, index) => (
+						<li><a href={`#music-online-${index}`}>{music.title}</a></li>
+					))}
+				</ul>
+			</nav>
 
-			{embeddedMusic.length > 0 && (
-				<section class="online-music" aria-label="온라인 음악">
-					<div class="online-list">
-						{embeddedMusic.map((music, index) => (
-							<>
-								<article class="music-embed">
-									<MusicEntryHeading
-										title={music.title}
-										meta={music.players.map((player) => player.provider).join(' · ')}
-										description={music.description}
-									/>
-									<div class="music-players">
-										{music.players.map((player) => (
-											<div class="music-player">
-												{player.date && (
-													<p class="music-player-date"><FormattedDate date={player.date} /></p>
-												)}
-												<iframe
-													src={player.src}
-													title={`${music.title} - ${player.provider} 플레이어`}
-													loading="lazy"
-													height={player.height}
-													allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-													allowfullscreen
+			<div class="music-content">
+				<div class="folder-list">
+					{musicFolders.map(({ name: folder, description, date, files }, index) => (
+						<>
+							<section class="folder" aria-labelledby={`music-folder-${index}`}>
+								<MusicEntryHeading
+									title={folder}
+									date={date}
+									meta={`${files.length}곡`}
+									description={description}
+									id={`music-folder-${index}`}
+								/>
+								<ul>
+									{files.map((file) => (
+										<li>
+											{['MID', 'MIDI'].includes(file.format) ? (
+												<>
+													{file.date && <p class="music-date"><FormattedDate date={file.date} /></p>}
+													<p class="download-title">{file.name}</p>
+													{file.description && <p class="track-description">{file.description}</p>}
+													<a class="download" href={file.src} download>파일 다운로드</a>
+												</>
+											) : (
+												<AudioPlayer
+													src={file.src}
+													title={file.name}
+													description={file.description}
+													date={file.date}
 												/>
+											)}
+										</li>
+									))}
+								</ul>
+							</section>
+							{(index < musicFolders.length - 1 || embeddedMusic.length > 0) && (
+								<hr class="folder-divider" aria-hidden="true" />
+							)}
+						</>
+					))}
+
+					{embeddedMusic.length > 0 && (
+						<section class="online-music" aria-label="온라인 음악">
+							<div class="online-list">
+								{embeddedMusic.map((music, index) => (
+									<>
+										<article class="music-embed">
+											<MusicEntryHeading
+												title={music.title}
+												meta={music.players.map((player) => player.provider).join(' · ')}
+												description={music.description}
+												id={`music-online-${index}`}
+											/>
+											<div class="music-players">
+												{music.players.map((player) => (
+													<div class="music-player">
+														{player.date && (
+															<p class="music-player-date"><FormattedDate date={player.date} /></p>
+														)}
+														<iframe
+															src={player.src}
+															title={`${music.title} - ${player.provider} 플레이어`}
+															loading="lazy"
+															height={player.height}
+															allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+															allowfullscreen
+														/>
+													</div>
+												))}
 											</div>
-										))}
-									</div>
-								</article>
-								{index < embeddedMusic.length - 1 && (
-									<hr class="folder-divider" aria-hidden="true" />
-								)}
-							</>
-						))}
-					</div>
-				</section>
-			)}
+										</article>
+										{index < embeddedMusic.length - 1 && (
+											<hr class="folder-divider" aria-hidden="true" />
+										)}
+									</>
+								))}
+							</div>
+						</section>
+					)}
+				</div>
+
+				<p>이것 외에도 제 음악은 아주 많습니다! <a href="https://www.youtube.com/@sinokadev">유튜브</a>나 <a href="https://soundcloud.com/sinokadev">사운드클라우드</a>, 그리고 제 <a href="https://www.youtube.com/channel/UCihs9DsOwq1MyUBrAXp-4pA">유튜브 토픽 페이지</a>와 <a href="https://open.spotify.com/artist/0kqGQnWAyC9Bk1gOS51hZR">스포티파이</a>, <a href="https://music.apple.com/us/artist/sinoka/1830279424">애플 뮤직</a>에서 들으실 수 있습니다.</p>
+			</div>
 		</div>
 	) : (
 		<p class="empty">아직 등록된 음악이 없습니다.</p>
 	)}
-
-	<p>이것 외에도 제 음악은 아주 많습니다! <a href="https://www.youtube.com/@sinokadev">유튜브</a>나 <a href="https://soundcloud.com/sinokadev">사운드클라우드</a>, 그리고 제 <a href="https://www.youtube.com/channel/UCihs9DsOwq1MyUBrAXp-4pA">유튜브 토픽 페이지</a>와 <a href="https://open.spotify.com/artist/0kqGQnWAyC9Bk1gOS51hZR">스포티파이</a>, <a href="https://music.apple.com/us/artist/sinoka/1830279424">애플 뮤직</a>에서 들으실 수 있습니다.</p>
 </Layout>
 
 <style>
 	.page-heading {
 		margin: 1.5rem 0 2rem;
 	}
-
-
 
 	.eyebrow {
 		margin: 0;
@@ -305,6 +321,62 @@ const totalEmbeddedPlayers = embeddedMusic.reduce((count, music) => count + musi
 	.summary {
 		margin: 0;
 		color: var(--muted-text-color);
+	}
+
+	.music-layout {
+		display: grid;
+		grid-template-columns: minmax(120px, 1fr) minmax(0, 720px) minmax(120px, 1fr);
+		gap: 1.5rem;
+		align-items: start;
+		width: min(1100px, calc(100vw - 2rem));
+		margin-left: 50%;
+		transform: translateX(-50%);
+	}
+
+	.music-toc {
+		position: sticky;
+		top: 1.5rem;
+		grid-column: 1;
+		grid-row: 1;
+		justify-self: end;
+		width: 100%;
+		max-width: 140px;
+		max-height: calc(100vh - 3rem);
+		overflow-y: auto;
+	}
+
+	.music-toc > p {
+		margin-bottom: 0.5rem;
+		font-weight: var(--font-weight-post-heading);
+	}
+
+	.music-toc ul {
+		display: grid;
+		gap: 0.35rem;
+		list-style: none;
+	}
+
+	.music-toc a {
+		display: block;
+		color: var(--muted-text-color);
+		font-size: 0.85rem;
+		line-height: 1.4;
+		text-decoration: none;
+		overflow-wrap: anywhere;
+	}
+
+	.music-toc a:hover {
+		color: var(--link-color);
+	}
+
+	.music-content {
+		grid-column: 2;
+		grid-row: 1;
+		min-width: 0;
+	}
+
+	.music-content :global(h2[id]) {
+		scroll-margin-top: 1.5rem;
 	}
 
 	.folder-list {
@@ -413,5 +485,46 @@ const totalEmbeddedPlayers = embeddedMusic.reduce((count, music) => count + musi
 		padding: 2rem 1rem;
 		color: var(--muted-text-color);
 		text-align: center;
+	}
+
+	@media (max-width: 900px) {
+		.music-layout {
+			display: flex;
+			flex-direction: column;
+			gap: 1rem;
+			width: 100%;
+			margin-left: 0;
+			transform: none;
+		}
+
+		.music-toc {
+			top: 0;
+			z-index: 1;
+			width: 100%;
+			max-width: none;
+			max-height: none;
+			padding: 0.5rem 0;
+			background: var(--bg-color);
+			border-bottom: 1px solid var(--bg-color-two);
+		}
+
+		.music-toc > p {
+			margin-bottom: 0.25rem;
+		}
+
+		.music-toc ul {
+			display: flex;
+			gap: 1rem;
+			overflow-x: auto;
+			white-space: nowrap;
+		}
+
+		.music-toc a {
+			white-space: nowrap;
+		}
+
+		.music-content {
+			width: 100%;
+		}
 	}
 </style>
