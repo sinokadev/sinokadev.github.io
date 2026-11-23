@@ -1,0 +1,46 @@
+---
+interface Props {
+	src: string;
+	title?: string;
+}
+
+const { src, title } = Astro.props;
+---
+
+<figure class="audio-player">
+	{title && <figcaption>{title}</figcaption>}
+	<audio-player>
+		<audio-neutral-skin>
+			<audio preload="metadata" src={src}>
+				<a href={src}>오디오 파일을 열 수 없습니다.</a>
+			</audio>
+		</audio-neutral-skin>
+	</audio-player>
+</figure>
+
+<script>
+	import '@videojs/html/audio/player';
+	import '@videojs/html/audio/neutral-skin';
+</script>
+
+<style>
+	.audio-player {
+		margin: 1.5rem 0;
+		padding: 0.75rem 1rem;
+		border: 1px solid var(--color-border-light);
+		border-radius: 0.75rem;
+		background: var(--color-white);
+		box-shadow: 0 2px 8px rgb(0 0 0 / 5%);
+	}
+
+	.audio-player figcaption {
+		margin: 0 0 0.35rem;
+		text-align: left;
+		font-weight: 600;
+	}
+
+	audio-neutral-skin {
+		display: block;
+		width: 100%;
+	}
+</style>
