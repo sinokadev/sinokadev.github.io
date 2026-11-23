@@ -4,6 +4,7 @@ import type { CollectionEntry } from 'astro:content';
 import FormattedDate from '../components/FormattedDate.astro';
 import Layout from './Layout.astro';
 import "katex/dist/katex.min.css";
+import "littlefoot/dist/littlefoot.css";
 
 type Props = CollectionEntry<'blog'>['data'] & { minutesRead?: string; noindex?: boolean };
 
@@ -55,6 +56,17 @@ const giscusTheme = import.meta.env.DEV ? 'light' : 'https://sinoka.dev/giscus-t
 		.post-content :global(a:hover) {
 			color: var(--color-link-post-hover);
 		}
+		.post-content :global([data-footnotes] > h2) {
+			position: absolute;
+			width: 1px;
+			height: 1px;
+			padding: 0;
+			margin: -1px;
+			overflow: hidden;
+			clip: rect(0, 0, 0, 0);
+			white-space: nowrap;
+			border: 0;
+		}
 		.prose :global(.giscus) {
 			margin-top: 2rem;
 		}
@@ -70,6 +82,25 @@ const giscusTheme = import.meta.env.DEV ? 'light' : 'https://sinoka.dev/giscus-t
 			font-size: 0.9rem;
 			color: var(--color-heading-muted);
 			font-weight: var(--font-weight-post-heading);
+		}
+		.post-content :global(.littlefoot) {
+			--button-background-color: var(--color-gray-600);
+			--button-active-background-color: var(--color-gray-900);
+			--button-text-color: var(--color-white);
+			--button-active-text-color: var(--color-white);
+			--button-border-radius: 999px;
+			--button-height: 1.1rem;
+			--button-padding: 0 0.35rem;
+		}
+		.post-content :global(.littlefoot__popover) {
+			--popover-background-color: var(--bg-color);
+			--popover-text-color: var(--text-color);
+			--popover-border: 1px solid var(--color-border-light);
+			--popover-border-radius: var(--radius-blockquote);
+			--popover-shadow: 0 0.35rem 1rem var(--menu-shadow);
+			--popover-font-family: "Pretendard", ui-sans-serif, sans-serif, system-ui;
+			--popover-font-size: 0.9rem;
+			--popover-line-height: 1.6;
 		}
 	</style>
 	{noindex && <meta slot="head" name="robots" content="noindex, nofollow" />}
@@ -103,6 +134,26 @@ const giscusTheme = import.meta.env.DEV ? 'light' : 'https://sinoka.dev/giscus-t
 			<div class="post-content">
 				<slot />
 			</div>
+			<script>
+				import { littlefoot } from 'littlefoot';
+
+				const initializeLittlefoot = () => {
+					if (!document.querySelector('.post-content a[data-footnote-ref]')) return;
+
+					littlefoot({
+						scope: '.post-content',
+						// GFM uses both numeric IDs (fn-1) and named IDs (fn-source-name).
+						// Repeated references can also add a suffix, such as fn-1-2.
+						anchorPattern: /#(?:user-content-)?fn-[\w-]+/i,
+						buttonTemplate: '<button class="littlefoot__button" id="<% reference %>" title="See Footnote <% number %>"><svg role="img" aria-labelledby="title-<% reference %>" viewBox="0 0 6 6"><title id="title-<% reference %>">Footnote <% number %></title><circle r="3" cx="3" cy="3" fill="white"></circle></svg></button>',
+						allowMultiple: false,
+						activateOnHover: false,
+						dismissOnDocumentTouch: true,
+					});
+				};
+
+				initializeLittlefoot();
+			</script>
 			<script src="https://giscus.app/client.js"
 					data-repo="sinokadev/blog-giscus"
 					data-repo-id="R_kgDORKSjOA"

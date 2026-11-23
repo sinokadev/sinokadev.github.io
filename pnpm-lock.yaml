@@ -41,6 +41,9 @@ importers:
       katex:
         specifier: ^0.16.28
         version: 0.16.28
+      littlefoot:
+        specifier: ^4.1.4
+        version: 4.1.4
       mdast-util-to-string:
         specifier: ^4.0.0
         version: 4.0.0
@@ -1799,6 +1802,9 @@ packages:
 
   lite-youtube-embed@0.3.4:
     resolution: {integrity: sha512-aXgxpwK7AIW58GEbRzA8EYaY4LWvF3FKak6B9OtSJmuNyLhX2ouD4cMTxz/yR5HFInhknaYd2jLWOTRTvT8oAw==}
+
+  littlefoot@4.1.4:
+    resolution: {integrity: sha512-BK006qX71Nv/IRhzrETXctMz50xyIuzGNag9zB96vJub1+540zI2umXSCv8esvLBgvN6kOtuFBzVz+jGNtsMGw==}
 
   locate-character@3.0.0:
     resolution: {integrity: sha512-SW13ws7BjaeJ6p7Q6CO2nchbYEc3X3J6WrmTTDto7yMPqVSZTUyY5Tjbid+Ab8gLnATtygYtiDIJGQRRn2ZOiA==}
@@ -4295,6 +4301,8 @@ snapshots:
       lightningcss-win32-x64-msvc: 1.33.0
 
   lite-youtube-embed@0.3.4: {}
+
+  littlefoot@4.1.4: {}
 
   locate-character@3.0.0: {}
 
