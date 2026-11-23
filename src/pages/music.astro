@@ -1,0 +1,228 @@
+---
+import { readdir } from 'node:fs/promises';
+import { dirname, extname, join, relative, resolve, sep } from 'node:path';
+import AudioPlayer from '../components/AudioPlayer.astro';
+import { musicFolderDescriptions, musicTrackDescriptions } from '../data/musicDescriptions';
+import Layout from '../layouts/Layout.astro';
+
+const musicRoot = resolve(process.cwd(), 'public/music');
+const audioExtensions = new Set([
+	'.3gp',
+	'.aac',
+	'.amr',
+	'.aif',
+	'.aiff',
+	'.ape',
+	'.dff',
+	'.dsf',
+	'.flac',
+	'.m4a',
+	'.mid',
+	'.midi',
+	'.mka',
+	'.mp3',
+	'.mp4',
+	'.oga',
+	'.ogg',
+	'.opus',
+	'.spx',
+	'.tta',
+	'.wav',
+	'.webm',
+	'.wma',
+	'.wv',
+]);
+
+type MusicFile = {
+	name: string;
+	src: string;
+	format: string;
+	description: string;
+};
+
+const folders = new Map<string, MusicFile[]>();
+
+async function collectMusic(directory: string) {
+	for (const entry of await readdir(directory, { withFileTypes: true })) {
+		const fullPath = join(directory, entry.name);
+		if (entry.isDirectory()) {
+			await collectMusic(fullPath);
+			continue;
+		}
+
+		const extension = extname(entry.name).toLowerCase();
+		if (!entry.isFile() || !audioExtensions.has(extension)) continue;
+
+		const relativePath = relative(musicRoot, fullPath);
+		const folderPath = dirname(relativePath);
+		const folder = folderPath === '.' ? '기타' : folderPath.split(sep).join('/');
+		const files = folders.get(folder) ?? [];
+		files.push({
+			name: entry.name,
+			src: `/music/${relativePath.split(sep).map(encodeURIComponent).join('/')}`,
+			format: extension.slice(1).toUpperCase(),
+			description: musicTrackDescriptions[relativePath] ?? '',
+		});
+		folders.set(folder, files);
+	}
+}
+
+await collectMusic(musicRoot);
+
+const musicFolders = [...folders.entries()]
+	.map(([name, files]) => ({
+		name,
+		description: musicFolderDescriptions[name] ?? '',
+		files: files.sort((a, b) => a.name.localeCompare(b.name, 'ko')),
+	}))
+	.sort((a, b) => a.name.localeCompare(b.name, 'ko'));
+const totalTracks = musicFolders.reduce((count, folder) => count + folder.files.length, 0);
+---
+
+<Layout title="음악" description="폴더별로 모아 둔 음악을 감상해 보세요.">
+	<header class="page-heading">
+		<h1>음악</h1>
+		<p class="summary">{musicFolders.length}개 폴더 · {totalTracks}곡</p>
+	</header>
+
+	{musicFolders.length > 0 ? (
+		<div class="folder-list">
+			{musicFolders.map(({ name: folder, description, files }) => (
+				<section class="folder" aria-labelledby={`folder-${folder}`}>
+					<div class="folder-heading">
+						<div class="folder-title">
+							<h2 id={`folder-${folder}`}>{folder}</h2>
+							{description && <p class="folder-description">{description}</p>}
+						</div>
+						<span>{files.length}곡</span>
+					</div>
+					<ul>
+						{files.map((file) => (
+							<li>
+								{['MID', 'MIDI'].includes(file.format) ? (
+									<>
+										<p class="download-title">{file.name}</p>
+										{file.description && <p class="track-description">{file.description}</p>}
+										<a class="download" href={file.src} download>파일 다운로드</a>
+									</>
+								) : (
+									<AudioPlayer
+										src={file.src}
+										title={file.name}
+										description={file.description}
+									/>
+								)}
+							</li>
+						))}
+					</ul>
+				</section>
+			))}
+		</div>
+	) : (
+		<p class="empty">아직 등록된 음악이 없습니다.</p>
+	)}
+</Layout>
+
+<style>
+	.page-heading {
+		margin: 1.5rem 0 2rem;
+	}
+
+	.eyebrow {
+		margin: 0;
+		color: var(--muted-text-color);
+		font-size: 0.75rem;
+		font-weight: 600;
+		letter-spacing: 0.12em;
+	}
+
+	h1 {
+		margin: 0.3rem 0;
+	}
+
+	.summary {
+		margin: 0;
+		color: var(--muted-text-color);
+	}
+
+	.folder-list {
+		display: grid;
+		gap: 1rem;
+	}
+
+	.folder {
+		overflow: hidden;
+		border: 1px solid var(--color-gray-200);
+		border-radius: 0.75rem;
+		background: var(--color-gray-50);
+	}
+
+	.folder-heading {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: 1rem;
+		padding: 0.9rem 1rem;
+		border-bottom: 1px solid var(--color-gray-200);
+		background: var(--bg-color-two);
+	}
+
+	.folder-heading h2 {
+		margin: 0;
+		font-size: 1.1rem;
+		overflow-wrap: anywhere;
+	}
+
+	.folder-description {
+		margin: 0.25rem 0 0;
+		color: var(--muted-text-color);
+		font-size: 0.9rem;
+		line-height: 1.5;
+		overflow-wrap: anywhere;
+	}
+
+	.folder-heading span,
+	.track-heading span {
+		flex: none;
+		color: var(--muted-text-color);
+		font-size: 0.8rem;
+	}
+
+	ul {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	li {
+		padding: 0.25rem 1rem;
+	}
+
+	li:first-child {
+		padding-top: 0.8rem;
+	}
+
+	li:last-child {
+		padding-bottom: 0.8rem;
+	}
+
+	.folder :global(.audio-player) {
+		margin: 0.25rem 0;
+	}
+
+	.track-heading {
+		display: flex;
+		justify-content: flex-end;
+		margin-bottom: 0.4rem;
+	}
+
+	.download {
+		font-size: 0.9rem;
+	}
+
+	.empty {
+		padding: 2rem 1rem;
+		color: var(--muted-text-color);
+		text-align: center;
+	}
+</style>
