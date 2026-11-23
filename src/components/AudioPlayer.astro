@@ -3,13 +3,21 @@ interface Props {
 	src: string;
 	title?: string;
 	description?: string;
+	date?: Date;
 }
 
-const { src, title, description } = Astro.props;
+import FormattedDate from './FormattedDate.astro';
+
+const { src, title, description, date } = Astro.props;
 ---
 
 <figure class="audio-player">
-	{title && <figcaption>{title}</figcaption>}
+	{title && (
+		<figcaption>
+			<span>{title}</span>
+			{date && <FormattedDate date={date} />}
+		</figcaption>
+	)}
 	{description && <p class="description">{description}</p>}
 	<audio-player>
 		<audio-neutral-skin class="neutral-audio-skin">
@@ -30,14 +38,25 @@ const { src, title, description } = Astro.props;
 		margin: 0.5rem 0;
 		padding: 0.75rem 1rem;
 		border: 1px solid var(--color-gray-200);
-		border-radius: 0.75rem;
+		border-radius: var(--radius-image);
 		background: var(--color-white);
 	}
 
 	.audio-player figcaption {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: 0.75rem;
 		margin: 0 0 0.35rem;
 		text-align: left;
-		font-weight: 600;
+		font-weight: var(--font-weight-figcaption);
+	}
+
+	.audio-player figcaption :global(time) {
+		flex: none;
+		color: var(--muted-text-color);
+		font-size: 0.8rem;
+		font-weight: var(--font-weight-post-date);
 	}
 
 	.description {

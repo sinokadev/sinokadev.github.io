@@ -122,7 +122,7 @@ nav ul a {
 a {
   font-weight: var(--font-weight-link);
   transition: color 0.1s ease;
-  color: var(--text-color);
+  color: var(--color-link-post);
 }
 
 .no-underline {
@@ -130,7 +130,7 @@ a {
 }
 
 a:hover {
-  color: var(--link-hover-color);
+  color: var(--color-link-post-hover);
 }
 
 main {

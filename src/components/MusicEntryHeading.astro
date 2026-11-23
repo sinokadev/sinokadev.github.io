@@ -1,0 +1,79 @@
+---
+import FormattedDate from './FormattedDate.astro';
+
+interface Props {
+	title: string;
+	date?: Date;
+	meta: string;
+	description?: string;
+	id?: string;
+}
+
+const { title, date, meta, description, id } = Astro.props;
+---
+
+<div class="music-entry">
+	<div class="music-entry-heading">
+		<div class="music-entry-title">
+			<h2 id={id}>{title}</h2>
+			{date && <span class="music-entry-date">· <FormattedDate date={date} /></span>}
+		</div>
+		<span class="music-entry-meta">{meta}</span>
+	</div>
+	{description && <p class="music-entry-description">{description}</p>}
+</div>
+
+<style>
+	.music-entry {
+		margin-bottom: 1.25rem;
+	}
+
+	.music-entry-heading {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		flex-wrap: nowrap;
+		gap: 1rem;
+	}
+
+	.music-entry-title {
+		display: flex;
+		align-items: baseline;
+		flex: 1;
+		min-width: 0;
+		overflow: hidden;
+		flex-wrap: nowrap;
+		gap: 0.4rem;
+	}
+
+	h2 {
+		flex: 0 1 auto;
+		min-width: 0;
+		overflow: hidden;
+		margin: 0;
+		font-size: 1.3rem;
+		font-weight: var(--font-weight-post-heading);
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.music-entry-date,
+	.music-entry-meta {
+		flex: none;
+		color: var(--muted-text-color);
+		font-size: 0.8rem;
+		white-space: nowrap;
+	}
+
+	.music-entry-meta {
+		margin-left: auto;
+	}
+
+	.music-entry-description {
+		margin: 0.25rem 0 0;
+		color: var(--muted-text-color);
+		font-size: 0.9rem;
+		line-height: 1.5;
+		overflow-wrap: anywhere;
+	}
+</style>
