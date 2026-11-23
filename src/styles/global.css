@@ -90,6 +90,12 @@ b {
   font-weight: var(--font-weight-emphasis);
 }
 
+html,
+body {
+  max-width: 100%;
+  overflow-x: clip;
+}
+
 body {
   max-width: 1200px;
   margin: 0 auto;
@@ -103,7 +109,7 @@ body {
   flex-direction: column;
   min-height: 100vh;
 
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 .wrapper {

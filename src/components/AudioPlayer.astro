@@ -35,11 +35,22 @@ const { src, title, description, date } = Astro.props;
 
 <style>
 	.audio-player {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
 		margin: 0.5rem 0;
 		padding: 0.75rem 1rem;
 		border: 1px solid var(--color-gray-200);
 		border-radius: var(--radius-image);
 		background: var(--color-white);
+	}
+
+	audio-player,
+	audio-neutral-skin {
+		display: block;
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
 	}
 
 	.audio-player figcaption {
