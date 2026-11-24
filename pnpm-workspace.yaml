@@ -1,0 +1,2 @@
+minimumReleaseAgeExclude:
+  - remark-inline-anchor@1.0.0

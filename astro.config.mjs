@@ -4,6 +4,7 @@ import { unified } from '@astrojs/markdown-remark';
 import pagefind from 'astro-pagefind';
 
 import remarkGfm from 'remark-gfm';
+import remarkInlineAnchor from 'remark-inline-anchor';
 import remarkMath from 'remark-math';
 import remarkToc from 'remark-toc';
 
@@ -26,6 +27,7 @@ export default defineConfig({
     processor: unified({
       remarkPlugins: [
         remarkGfm,
+        remarkInlineAnchor,
         remarkMath,
         [remarkToc, { heading: '목차' }],
         remarkReadingTime,
