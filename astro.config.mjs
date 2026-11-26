@@ -18,6 +18,26 @@ import { rehypePostLink } from './src/lib/rehype-post-link.mjs';
 
 import svelte from '@astrojs/svelte';
 
+import { execFileSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
+
+function musicPreviewsIntegration() {
+  return {
+    name: 'music-previews',
+    hooks: {
+      'astro:build:start': () => {
+        try {
+          execFileSync(process.execPath, [fileURLToPath(new URL('./scripts/generate-music-previews.mjs', import.meta.url))], {
+            stdio: 'inherit',
+          });
+        } catch (e) {
+          console.warn('[music-previews] Preview generation notice:', e.message);
+        }
+      },
+    },
+  };
+}
+
 export default defineConfig({
 
   site: 'https://sinoka.dev',
@@ -48,7 +68,7 @@ export default defineConfig({
       ],
     }),
   },
-  integrations: [mdx(), pagefind(), svelte()],
+  integrations: [mdx(), pagefind(), svelte(), musicPreviewsIntegration()],
   build: {
     inlineStylesheets: 'always',
   },

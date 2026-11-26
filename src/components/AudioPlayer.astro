@@ -4,17 +4,31 @@ interface Props {
 	title?: string;
 	description?: string;
 	date?: Date;
+	permalink?: string;
 }
 
 import FormattedDate from './FormattedDate.astro';
 
-const { src, title, description, date } = Astro.props;
+const { src, title, description, date, permalink } = Astro.props;
 ---
 
 <figure class="audio-player">
 	{title && (
 		<figcaption>
-			<span>{title}</span>
+			<div class="caption-title-wrap">
+				{permalink ? (
+					<a href={permalink} class="track-link" title="개별 페이지로 이동">
+						<span class="track-title-text">{title}</span>
+						<svg class="external-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+							<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+							<polyline points="15 3 21 3 21 9" />
+							<line x1="10" y1="14" x2="21" y2="3" />
+						</svg>
+					</a>
+				) : (
+					<span class="track-title-text">{title}</span>
+				)}
+			</div>
 			{date && <FormattedDate date={date} />}
 		</figcaption>
 	)}
@@ -61,6 +75,44 @@ const { src, title, description, date } = Astro.props;
 		margin: 0 0 0.35rem;
 		text-align: left;
 		font-weight: var(--font-weight-figcaption);
+	}
+
+	.caption-title-wrap {
+		display: flex;
+		align-items: center;
+		min-width: 0;
+		overflow: hidden;
+	}
+
+	.track-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
+		color: inherit;
+		text-decoration: none;
+		min-width: 0;
+		overflow: hidden;
+	}
+
+	.track-link:hover {
+		color: var(--link-color);
+		text-decoration: underline;
+	}
+
+	.track-title-text {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.external-icon {
+		flex: none;
+		opacity: 0.6;
+		transition: opacity 0.15s ease, transform 0.15s ease;
+	}
+
+	.track-link:hover .external-icon {
+		opacity: 1;
 	}
 
 	.audio-player figcaption :global(time) {

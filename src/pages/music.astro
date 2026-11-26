@@ -1,195 +1,17 @@
 ---
-import { readdir } from 'node:fs/promises';
-import { dirname, extname, join, relative, resolve, sep } from 'node:path';
 import AudioPlayer from '../components/AudioPlayer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import MusicEntryHeading from '../components/MusicEntryHeading.astro';
-import {
-	musicFolderMetadata,
-	musicTrackMetadata,
-} from '../data/musicMetadata';
-import { musicEmbeds } from '../data/musicEmbeds';
 import Layout from '../layouts/Layout.astro';
+import { getMusicData } from '../lib/music';
 
-const musicRoot = resolve(process.cwd(), 'public/music');
-const audioExtensions = new Set([
-	'.3gp',
-	'.aac',
-	'.amr',
-	'.aif',
-	'.aiff',
-	'.ape',
-	'.dff',
-	'.dsf',
-	'.flac',
-	'.m4a',
-	'.mid',
-	'.midi',
-	'.mka',
-	'.mp3',
-	'.mp4',
-	'.oga',
-	'.ogg',
-	'.opus',
-	'.spx',
-	'.tta',
-	'.wav',
-	'.webm',
-	'.wma',
-	'.wv',
-]);
-
-type MusicFile = {
-	name: string;
-	src: string;
-	format: string;
-	description: string;
-	date?: Date;
-};
-
-type EmbeddedPlayer = {
-	provider: string;
-	src: string;
-	height: number;
-	date?: Date;
-};
-
-type EmbeddedMusic = {
-	title: string;
-	description: string;
-	players: EmbeddedPlayer[];
-};
-
-function parseMusicDate(date?: string): Date | undefined {
-	if (!date) return undefined;
-	const timestamp = Date.parse(`${date}T00:00:00.000Z`);
-	if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || Number.isNaN(timestamp) || new Date(timestamp).toISOString().slice(0, 10) !== date) {
-		throw new Error(`음악 날짜는 YYYY-MM-DD 형식이어야 합니다: ${date}`);
-	}
-	return new Date(timestamp);
-}
-
-function createMusicPlayer({ url: rawUrl, date }: (typeof musicEmbeds)[number]['embeds'][number]): EmbeddedPlayer {
-	let url: URL;
-	try {
-		url = new URL(rawUrl);
-	} catch {
-		throw new Error(`음악 임베드 URL이 올바르지 않습니다: ${rawUrl}`);
-	}
-
-	if (url.protocol !== 'https:') {
-		throw new Error(`음악 임베드 URL은 HTTPS여야 합니다: ${rawUrl}`);
-	}
-
-	const hostname = url.hostname.toLowerCase().replace(/^www\./, '');
-	if (hostname === 'youtube.com' || hostname === 'm.youtube.com' || hostname === 'music.youtube.com' || hostname === 'youtube-nocookie.com' || hostname === 'youtu.be') {
-		const parts = url.pathname.split('/').filter(Boolean);
-		const videoId = hostname === 'youtu.be'
-			? parts[0]
-			: url.searchParams.get('v') ?? (['embed', 'shorts', 'live'].includes(parts[0] ?? '') ? parts[1] : undefined);
-		if (!videoId || !/^[\w-]{11}$/.test(videoId)) {
-			throw new Error(`YouTube 동영상 URL을 확인해 주세요: ${rawUrl}`);
-		}
-		return {
-			provider: 'YouTube',
-			src: `https://www.youtube-nocookie.com/embed/${videoId}`,
-			height: 315,
-			date: parseMusicDate(date),
-		};
-	}
-
-	if (hostname === 'soundcloud.com') {
-		url.search = '';
-		return {
-			provider: 'SoundCloud',
-			src: `https://w.soundcloud.com/player/?${new URLSearchParams({
-				url: url.href,
-				color: '#ff5500',
-				auto_play: 'false',
-				hide_related: 'true',
-				show_comments: 'false',
-				show_user: 'true',
-				show_reposts: 'false',
-				visual: 'false',
-			})}`,
-			height: 166,
-			date: parseMusicDate(date),
-		};
-	}
-
-	if (hostname === 'open.spotify.com') {
-		const [type, id] = url.pathname.split('/').filter(Boolean);
-		if (!['track', 'album', 'playlist', 'episode', 'show'].includes(type ?? '') || !id || !/^[\w]+$/.test(id)) {
-			throw new Error(`Spotify 곡·앨범·플레이리스트 URL을 확인해 주세요: ${rawUrl}`);
-		}
-		return {
-			provider: 'Spotify',
-			src: `https://open.spotify.com/embed/${type}/${id}`,
-			height: type === 'track' || type === 'episode' ? 152 : 352,
-			date: parseMusicDate(date),
-		};
-	}
-
-	throw new Error(`지원하지 않는 음악 서비스 URL입니다: ${rawUrl}`);
-}
-
-function createMusicEmbed({ title, embeds, description = '' }: (typeof musicEmbeds)[number]): EmbeddedMusic {
-	if (embeds.length === 0) {
-		throw new Error(`음악 섹션에 임베드 URL을 하나 이상 입력해 주세요: ${title}`);
-	}
-	return {
-		title,
-		description,
-		players: embeds.map(createMusicPlayer),
-	};
-}
-
-const folders = new Map<string, MusicFile[]>();
-
-async function collectMusic(directory: string) {
-	for (const entry of await readdir(directory, { withFileTypes: true })) {
-		const fullPath = join(directory, entry.name);
-		if (entry.isDirectory()) {
-			await collectMusic(fullPath);
-			continue;
-		}
-
-		const extension = extname(entry.name).toLowerCase();
-		if (!entry.isFile() || !audioExtensions.has(extension)) continue;
-
-		const relativePath = relative(musicRoot, fullPath);
-		const folderPath = dirname(relativePath);
-		const folder = folderPath === '.' ? '기타' : folderPath.split(sep).join('/');
-		const files = folders.get(folder) ?? [];
-		const metadata = musicTrackMetadata[relativePath];
-		files.push({
-			name: entry.name,
-			src: `/music/${relativePath.split(sep).map(encodeURIComponent).join('/')}`,
-			format: extension.slice(1).toUpperCase(),
-			description: metadata?.description ?? '',
-			date: parseMusicDate(metadata?.date),
-		});
-		folders.set(folder, files);
-	}
-}
-
-await collectMusic(musicRoot);
-
-const musicFolders = [...folders.entries()]
-	.map(([name, files]) => {
-		const metadata = musicFolderMetadata[name];
-		return {
-			name,
-			description: metadata?.description ?? '',
-			date: parseMusicDate(metadata?.date),
-			files: files.sort((a, b) => a.name.localeCompare(b.name, 'ko')),
-		};
-	})
-	.sort((a, b) => a.name.localeCompare(b.name, 'ko'));
-const totalTracks = musicFolders.reduce((count, folder) => count + folder.files.length, 0);
-const embeddedMusic = musicEmbeds.map(createMusicEmbed);
-const totalEmbeddedPlayers = embeddedMusic.reduce((count, music) => count + music.players.length, 0);
-const hasMusic = musicFolders.length > 0 || embeddedMusic.length > 0;
+const {
+	folders: musicFolders,
+	embeddedMusic,
+	totalTracks,
+	totalEmbeddedPlayers,
+	hasMusic,
+} = await getMusicData();
 ---
 
 <Layout title="음악" description="폴더별로 모아 둔 음악을 감상해 보세요.">
@@ -227,12 +49,17 @@ const hasMusic = musicFolders.length > 0 || embeddedMusic.length > 0;
 								<ul>
 									{files.map((file) => (
 										<li>
-											{['MID', 'MIDI'].includes(file.format) ? (
+											{file.isMidi ? (
 												<>
 													{file.date && <p class="music-date"><FormattedDate date={file.date} /></p>}
-													<p class="download-title">{file.name}</p>
+													<p class="download-title">
+														<a href={file.permalink} class="track-page-link">{file.name}</a>
+													</p>
 													{file.description && <p class="track-description">{file.description}</p>}
-													<a class="download" href={file.src} download>파일 다운로드</a>
+													<div class="file-links">
+														<a class="download" href={file.src} download>파일 다운로드</a>
+														<a class="track-detail-link" href={file.permalink}>전용 페이지 →</a>
+													</div>
 												</>
 											) : (
 												<AudioPlayer
@@ -240,6 +67,7 @@ const hasMusic = musicFolders.length > 0 || embeddedMusic.length > 0;
 													title={file.name}
 													description={file.description}
 													date={file.date}
+													permalink={file.permalink}
 												/>
 											)}
 										</li>
@@ -521,6 +349,34 @@ const hasMusic = musicFolders.length > 0 || embeddedMusic.length > 0;
 
 	.download {
 		font-size: 0.9rem;
+	}
+
+	.file-links {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		margin-top: 0.25rem;
+	}
+
+	.track-page-link {
+		color: inherit;
+		text-decoration: none;
+	}
+
+	.track-page-link:hover {
+		color: var(--link-color);
+		text-decoration: underline;
+	}
+
+	.track-detail-link {
+		font-size: 0.85rem;
+		color: var(--muted-text-color);
+		text-decoration: none;
+	}
+
+	.track-detail-link:hover {
+		color: var(--link-color);
+		text-decoration: underline;
 	}
 
 	.empty {

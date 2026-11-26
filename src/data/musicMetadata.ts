@@ -5,10 +5,10 @@ export type MusicMetadata = {
 };
 
 export const musicTrackMetadata: Record<string, MusicMetadata> = {
-	'2026-11-23/Project_143_elevater.flac': { description: '' },
-	'2026-11-23/Project_143_original.flac': { description: '' },
-	'2026-11-23/Project_143_reverbd.flac': { description: '' },
-	'2026-11-23/Project_143_stereo.flac': { description: '' },
+	'2026-11-23/Project_143_elevater.flac': { description: '', date: '2026-11-23' },
+	'2026-11-23/Project_143_original.flac': { description: '', date: '2026-11-23' },
+	'2026-11-23/Project_143_reverbd.flac': { description: '', date: '2026-11-23' },
+	'2026-11-23/Project_143_stereo.flac': { description: '', date: '2026-11-23' },
 };
 
 export const musicFolderMetadata: Record<string, MusicMetadata> = {

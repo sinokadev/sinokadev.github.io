@@ -8,12 +8,46 @@ import { SITE_TITLE } from '../consts';
 interface Props {
 	title: string;
 	description: string;
-	image?: ImageMetadata;
+	image?: ImageMetadata | string;
+	ogType?: string;
+	audio?: {
+		url: string;
+		type: string;
+	};
+	video?: {
+		url: string;
+		type: string;
+		width?: number;
+		height?: number;
+	};
+	twitterCard?: 'summary' | 'summary_large_image' | 'player';
+	twitterPlayer?: {
+		url: string;
+		width?: number;
+		height?: number;
+		stream?: string;
+		streamType?: string;
+	};
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
-const { title, description } = Astro.props;
+const {
+	title,
+	description,
+	image,
+	ogType = 'website',
+	audio,
+	video,
+	twitterCard = 'summary_large_image',
+	twitterPlayer,
+} = Astro.props;
+
+const imageURL = image
+	? typeof image === 'string'
+		? new URL(image, Astro.site).href
+		: new URL(image.src, Astro.site).href
+	: undefined;
 ---
 
 <!-- Global Metadata -->
@@ -39,16 +73,48 @@ const { title, description } = Astro.props;
 <meta name="description" content={description} />
 
 <!-- Open Graph / Facebook -->
-<meta property="og:type" content="website" />
+<meta property="og:site_name" content={SITE_TITLE} />
+<meta property="og:type" content={ogType} />
 <meta property="og:url" content={Astro.url} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
+{imageURL && <meta property="og:image" content={imageURL} />}
+{audio && (
+	<>
+		<meta property="og:audio" content={audio.url} />
+		<meta property="og:audio:secure_url" content={audio.url} />
+		<meta property="og:audio:type" content={audio.type} />
+	</>
+)}
+{video && (
+	<>
+		<meta property="og:video" content={video.url} />
+		<meta property="og:video:secure_url" content={video.url} />
+		<meta property="og:video:type" content={video.type} />
+		<meta property="og:video:width" content={String(video.width ?? 1200)} />
+		<meta property="og:video:height" content={String(video.height ?? 500)} />
+	</>
+)}
 
 <!-- Twitter -->
-<meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:url" content={Astro.url} />
-<meta property="twitter:title" content={title} />
-<meta property="twitter:description" content={description} />
+<meta name="twitter:card" property="twitter:card" content={twitterCard} />
+<meta name="twitter:url" property="twitter:url" content={Astro.url} />
+<meta name="twitter:title" property="twitter:title" content={title} />
+<meta name="twitter:description" property="twitter:description" content={description} />
+{imageURL && <meta name="twitter:image" property="twitter:image" content={imageURL} />}
+{twitterPlayer && (
+	<>
+		<meta name="twitter:player" property="twitter:player" content={twitterPlayer.url} />
+		<meta name="twitter:player:width" property="twitter:player:width" content={String(twitterPlayer.width ?? 1200)} />
+		<meta name="twitter:player:height" property="twitter:player:height" content={String(twitterPlayer.height ?? 500)} />
+		{twitterPlayer.stream && (
+			<>
+				<meta name="twitter:player:stream" property="twitter:player:stream" content={twitterPlayer.stream} />
+				<meta name="twitter:player:stream:content_type" property="twitter:player:stream:content_type" content={twitterPlayer.streamType ?? 'video/mp4'} />
+			</>
+		)}
+	</>
+)}
 
 <script defer src="https://cloud.umami.is/script.js" data-website-id="b3880911-8acb-4cea-a27c-8bc6530fbd8c"></script>
 

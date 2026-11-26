@@ -1,0 +1,174 @@
+---
+import AudioPlayer from '../../components/AudioPlayer.astro';
+import Layout from '../../layouts/Layout.astro';
+import { getMusicData, type MusicFile } from '../../lib/music';
+
+export async function getStaticPaths() {
+	const { tracks } = await getMusicData();
+	return tracks.map((track) => {
+		return {
+			params: { slug: track.slug },
+			props: { track },
+		};
+	});
+}
+
+interface Props {
+	track: MusicFile;
+}
+
+const { track } = Astro.props;
+
+const pageTitle = `${track.title} | 음악`;
+const pageDescription = track.description || `${track.title} - 시노카의 자작 음악${track.dateString ? ` (${track.dateString})` : ''}`;
+const fullAudioUrl = new URL(track.src, Astro.site).href;
+const fullVideoUrl = track.videoSrc ? new URL(track.videoSrc, Astro.site).href : undefined;
+const fullImageUrl = track.imageSrc ? new URL(track.imageSrc, Astro.site).href : undefined;
+const fullEmbedUrl = new URL(track.embedUrl, Astro.site).href;
+---
+
+<Layout
+	title={pageTitle}
+	description={pageDescription}
+	image={fullImageUrl}
+	ogType={fullVideoUrl ? 'video.other' : 'music.song'}
+	audio={{
+		url: fullAudioUrl,
+		type: track.mimeType,
+	}}
+	video={fullVideoUrl ? {
+		url: fullVideoUrl,
+		type: 'video/mp4',
+		width: 1200,
+		height: 500,
+	} : undefined}
+	twitterCard={fullVideoUrl ? 'player' : 'summary_large_image'}
+	twitterPlayer={fullVideoUrl ? {
+		url: fullEmbedUrl,
+		width: 1200,
+		height: 500,
+		stream: fullVideoUrl,
+		streamType: 'video/mp4',
+	} : undefined}
+>
+	<article class="track-page">
+		<nav class="breadcrumb" aria-label="탐색 경로">
+			<a href="/music" class="back-link">
+				<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+					<path d="m15 18-6-6 6-6" />
+				</svg>
+				<span>전체 음악 목록으로</span>
+			</a>
+		</nav>
+
+		<header class="track-header">
+			<h1 class="track-title">{track.title}</h1>
+			{track.description && <p class="track-description">{track.description}</p>}
+		</header>
+
+		<section class="player-section" aria-label="음악 재생">
+			{track.isMidi ? (
+				<div class="midi-box">
+					<p class="midi-notice">이 곡은 MIDI 형식 파일입니다.</p>
+				</div>
+			) : (
+				<div class="audio-wrap">
+					<AudioPlayer
+						src={track.src}
+						title={track.name}
+						description={track.description}
+						date={track.date}
+					/>
+				</div>
+			)}
+		</section>
+
+	</article>
+</Layout>
+
+<style>
+	.track-page {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		margin: 1rem 0 3rem;
+	}
+
+	.breadcrumb {
+		margin-bottom: 0;
+	}
+
+	.breadcrumb + .track-header {
+		margin-top: -0.25rem;
+	}
+
+	.back-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
+		color: var(--muted-text-color);
+		font-size: 0.9rem;
+		text-decoration: none;
+		transition: color 0.15s ease;
+	}
+
+	.back-link:hover {
+		color: var(--link-color);
+	}
+
+	.track-header {
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
+	}
+
+	.track-title {
+		margin: 0.2rem 0 0;
+		font-size: 1.75rem;
+		font-weight: var(--font-weight-post-heading);
+		line-height: 1.3;
+		overflow-wrap: anywhere;
+	}
+
+	.track-description {
+		margin: 0;
+		color: var(--muted-text-color);
+		font-size: 0.95rem;
+		line-height: 1.6;
+		overflow-wrap: anywhere;
+	}
+
+	.player-section {
+		width: 100%;
+	}
+
+	.audio-wrap :global(.audio-player) {
+		margin: 0;
+		border-radius: 6px;
+	}
+
+	.midi-box {
+		padding: 1.5rem;
+		border: 1px solid var(--color-gray-200);
+		border-radius: 6px;
+		background: var(--color-white);
+		text-align: center;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1rem;
+	}
+
+	.midi-notice {
+		margin: 0;
+		color: var(--muted-text-color);
+		font-size: 0.9rem;
+	}
+
+	@media (max-width: 640px) {
+		.track-title {
+			font-size: 1.4rem;
+		}
+
+	}
+</style>

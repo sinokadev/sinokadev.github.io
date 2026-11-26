@@ -1,0 +1,124 @@
+---
+import AudioPlayer from '../../../components/AudioPlayer.astro';
+import { getMusicData, type MusicFile } from '../../../lib/music';
+
+export async function getStaticPaths() {
+	const { tracks } = await getMusicData();
+	return tracks.map((track) => ({
+		params: { slug: track.slug },
+		props: { track },
+	}));
+}
+
+interface Props {
+	track: MusicFile;
+}
+
+const { track } = Astro.props;
+---
+
+<!doctype html>
+<html lang="ko">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>{track.title} - 시노카의 이모저모</title>
+		<style>
+			:root {
+				--bg: #0f141c;
+				--card-bg: #161b26;
+				--text: #f1f5f9;
+				--muted: #94a3b8;
+				--accent: #3b82f6;
+			}
+			* {
+				box-sizing: border-box;
+				margin: 0;
+				padding: 0;
+			}
+			body {
+				font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+				background: var(--bg);
+				color: var(--text);
+				padding: 0.75rem 1rem;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				box-sizing: border-box;
+				min-height: 100vh;
+			}
+			.embed-card {
+				display: flex;
+				flex-direction: column;
+				gap: 0.6rem;
+				max-width: 600px;
+				margin: 0 auto;
+				width: 100%;
+			}
+			.embed-top {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				gap: 0.75rem;
+			}
+			.embed-info {
+				overflow: hidden;
+			}
+			.embed-title {
+				font-size: 1.05rem;
+				font-weight: 600;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+			.embed-folder {
+				font-size: 0.75rem;
+				color: var(--muted);
+			}
+			.embed-link {
+				color: var(--accent);
+				font-size: 0.8rem;
+				text-decoration: none;
+				flex: none;
+				padding: 0.25rem 0.5rem;
+				border-radius: 4px;
+				background: rgba(59, 130, 246, 0.1);
+				border: 1px solid rgba(59, 130, 246, 0.2);
+			}
+			.embed-link:hover {
+				background: rgba(59, 130, 246, 0.2);
+			}
+			.midi-box {
+				padding: 0.75rem;
+				background: var(--card-bg);
+				border-radius: 8px;
+				text-align: center;
+			}
+			.midi-link {
+				color: var(--accent);
+				font-size: 0.9rem;
+				text-decoration: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="embed-card">
+			<div class="embed-top">
+				<div class="embed-info">
+					<div class="embed-title">{track.title}</div>
+					<div class="embed-folder">{track.dateString ? `${track.dateString} · ${track.format}` : track.format}</div>
+				</div>
+				<a href={track.permalink} target="_blank" rel="noopener noreferrer" class="embed-link">
+					sinoka.dev ↗
+				</a>
+			</div>
+			{track.isMidi ? (
+				<div class="midi-box">
+					<a href={track.src} download class="midi-link">MIDI 파일 다운로드</a>
+				</div>
+			) : (
+				<AudioPlayer src={track.src} />
+			)}
+		</div>
+	</body>
+</html>

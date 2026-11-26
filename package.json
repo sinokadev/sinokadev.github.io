@@ -3,8 +3,9 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
+    "dev": "node scripts/generate-music-previews.mjs && astro dev",
+    "build": "node scripts/generate-music-previews.mjs && astro build",
+    "generate:previews": "node scripts/generate-music-previews.mjs",
     "preview": "astro preview",
     "astro": "astro"
   },
