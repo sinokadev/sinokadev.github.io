@@ -1,0 +1,146 @@
+---
+import AudioPlayer from './AudioPlayer.astro';
+import FormattedDate from './FormattedDate.astro';
+import MusicEntryHeading from './MusicEntryHeading.astro';
+import VideoPlayer from './VideoPlayer.astro';
+import { getMusicData } from '../lib/music';
+
+interface Props {
+	folder: string;
+}
+
+const { folder: folderIdentifier } = Astro.props;
+const { folders } = await getMusicData();
+const folder = folders.find((item) => item.slug === folderIdentifier || item.name === folderIdentifier);
+
+if (!folder) {
+	throw new Error(`음악 폴더를 찾을 수 없습니다: ${folderIdentifier}`);
+}
+
+const musicTabUrl = `/music#music-folder-${folder.index}`;
+const headingId = `music-folder-embed-${folder.index}`;
+---
+
+<section class="music-folder-embed" aria-labelledby={headingId}>
+	<MusicEntryHeading
+		title={folder.name}
+		date={folder.date}
+		meta={`${folder.files.length}곡`}
+		description={folder.description}
+		id={headingId}
+	/>
+	<a class="music-tab-link" href={musicTabUrl}>
+		<span>음악 탭에서 보기</span>
+		<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+			<path d="m9 18 6-6-6-6" />
+		</svg>
+	</a>
+	<ul>
+		{folder.files.map((file) => (
+			<li>
+				{file.isVideo ? (
+					<VideoPlayer src={file.src} type={file.mimeType} title={file.name} description={file.description} />
+				) : file.isMidi ? (
+					<>
+						{file.date && <p class="music-date"><FormattedDate date={file.date} /></p>}
+						<p class="download-title"><a href={file.permalink}>{file.name}</a></p>
+						{file.description && <p class="track-description">{file.description}</p>}
+						<div class="file-links">
+							<a href={file.src} download>파일 다운로드</a>
+							<a href={file.permalink}>전용 페이지 →</a>
+						</div>
+					</>
+				) : (
+					<AudioPlayer
+						src={file.src}
+						title={file.name}
+						description={file.description}
+						date={file.date}
+						permalink={file.permalink}
+					/>
+				)}
+			</li>
+		))}
+	</ul>
+</section>
+
+<style>
+	.music-folder-embed {
+		width: 100%;
+		margin: 1.5rem 0;
+	}
+
+	.music-folder-embed :global(a) {
+		color: var(--muted-text-color);
+	}
+
+	.music-tab-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
+		margin: -0.75rem 0 1rem;
+		color: var(--muted-text-color);
+		font-size: 0.85rem;
+		text-decoration: none;
+	}
+
+	.music-tab-link:hover {
+		color: var(--link-color);
+	}
+
+	ul {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	li {
+		min-width: 0;
+		margin: 0;
+		padding: 0;
+	}
+
+	.music-folder-embed :global(.audio-player) {
+		margin: 0;
+		padding: 0;
+		border: 0;
+		border-radius: 0;
+		background: transparent;
+	}
+
+	.download-title,
+	.track-description,
+	.music-date {
+		margin: 0;
+	}
+
+	.download-title {
+		font-size: 1.3rem;
+		font-weight: var(--font-weight-post-heading);
+		line-height: 1.4;
+		overflow-wrap: anywhere;
+	}
+
+	.track-description {
+		margin-top: 0.25rem;
+		color: var(--muted-text-color);
+		font-size: 0.9rem;
+		line-height: 1.5;
+	}
+
+	.music-date {
+		margin-bottom: 0.25rem;
+		color: var(--muted-text-color);
+		font-size: 0.8rem;
+	}
+
+	.file-links {
+		display: flex;
+		gap: 0.75rem;
+		margin-top: 0.35rem;
+		font-size: 0.85rem;
+	}
+</style>

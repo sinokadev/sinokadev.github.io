@@ -1,6 +1,7 @@
 ---
 import BlogPost from '../layouts/BlogPost.astro';
 import MarkdownFeatureTest from '../components/MarkdownFeatureTest.md';
+import MusicFolderEmbed from '../components/MusicFolderEmbed.astro';
 ---
 
 <BlogPost
@@ -9,5 +10,7 @@ import MarkdownFeatureTest from '../components/MarkdownFeatureTest.md';
 	pubDate={new Date('2026-11-17')}
 	noindex
 >
+	<h2>음악 폴더 임베드 테스트</h2>
+	<MusicFolderEmbed folder="2026-11-23" />
 	<MarkdownFeatureTest />
 </BlogPost>
