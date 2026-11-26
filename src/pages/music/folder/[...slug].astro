@@ -1,0 +1,150 @@
+---
+import FormattedDate from '../../../components/FormattedDate.astro';
+import Layout from '../../../layouts/Layout.astro';
+import { getMusicData, type MusicFolder } from '../../../lib/music';
+
+export async function getStaticPaths() {
+	const { folders } = await getMusicData();
+	return folders.map((folder) => ({
+		params: { slug: folder.slug },
+		props: { folder },
+	}));
+}
+
+interface Props {
+	folder: MusicFolder;
+}
+
+const { folder } = Astro.props;
+const pageTitle = `${folder.name} | 음악 폴더`;
+const pageDescription = folder.description || `${folder.name} 폴더의 음악 ${folder.files.length}곡`;
+---
+
+<Layout title={pageTitle} description={pageDescription}>
+	<article class="folder-page">
+		<nav class="breadcrumb" aria-label="탐색 경로">
+			<a href="/music" class="back-link">
+				<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+					<path d="m15 18-6-6 6-6" />
+				</svg>
+				<span>전체 음악 목록으로</span>
+			</a>
+		</nav>
+
+		<header class="folder-header">
+			<h1>{folder.name}</h1>
+			<p class="folder-count">
+				{folder.files.length}곡{folder.date && <span> · <FormattedDate date={folder.date} /></span>}
+			</p>
+			{folder.description && <p class="folder-description">{folder.description}</p>}
+		</header>
+
+		<ul class="track-list">
+			{folder.files.map((track) => (
+				<li>
+					<a href={track.permalink} class="track-link">
+						<span class="track-name">{track.title}</span>
+						<svg class="track-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+							<path d="m9 18 6-6-6-6" />
+						</svg>
+					</a>
+					{track.description && <p class="track-description">{track.description}</p>}
+				</li>
+			))}
+		</ul>
+	</article>
+</Layout>
+
+<style>
+	.folder-page {
+		margin: 1rem 0 3rem;
+	}
+
+	.breadcrumb {
+		margin-bottom: 1rem;
+	}
+
+	.breadcrumb a {
+		color: var(--muted-text-color);
+		font-size: 0.9rem;
+		text-decoration: none;
+	}
+
+	.back-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
+	}
+
+	.breadcrumb a:hover,
+	.track-link:hover {
+		color: var(--link-color);
+	}
+
+	.folder-header {
+		margin-bottom: 0.75rem;
+	}
+
+	h1 {
+		margin: 0;
+		font-size: 1.75rem;
+		font-weight: var(--font-weight-post-heading);
+		line-height: 1.3;
+		overflow-wrap: anywhere;
+	}
+
+	.folder-count,
+	.folder-description,
+	.track-description {
+		color: var(--muted-text-color);
+	}
+
+	.folder-count {
+		margin: 0.4rem 0 0;
+		font-size: 0.85rem;
+	}
+
+	.folder-description {
+		margin: 0.75rem 0 0;
+		line-height: 1.6;
+	}
+
+	.track-list {
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.track-list li {
+		margin: 0;
+		padding: 0.75rem 0;
+		border-bottom: 1px solid var(--bg-color-two);
+	}
+
+	.track-link {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: 1rem;
+		color: var(--text-color);
+		text-decoration: none;
+	}
+
+	.track-name {
+		font-weight: var(--font-weight-figcaption);
+		overflow-wrap: anywhere;
+	}
+
+	.track-arrow {
+		flex: none;
+	}
+
+	.track-description {
+		margin: 0.35rem 0 0;
+		font-size: 0.9rem;
+		line-height: 1.5;
+	}
+</style>

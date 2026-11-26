@@ -37,7 +37,7 @@ const {
 
 			<div class="music-content">
 				<div class="folder-list">
-					{musicFolders.map(({ name: folder, description, date, files }, index) => (
+					{musicFolders.map(({ name: folder, slug, description, date, files }, index) => (
 						<>
 							<section class="folder" aria-labelledby={`music-folder-${index}`}>
 								<MusicEntryHeading
@@ -47,6 +47,9 @@ const {
 									description={description}
 									id={`music-folder-${index}`}
 								/>
+								<a class="folder-page-link" href={`/music/folder/${slug.split('/').map(encodeURIComponent).join('/')}`}>
+									폴더 페이지로 이동 →
+								</a>
 								<ul>
 									{files.map((file) => (
 										<li>
@@ -249,6 +252,18 @@ const {
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
+	}
+
+	.folder-page-link {
+		display: inline-block;
+		margin: -0.75rem 0 1rem;
+		color: var(--muted-text-color);
+		font-size: 0.85rem;
+		text-decoration: none;
+	}
+
+	.folder-page-link:hover {
+		color: var(--link-color);
 	}
 
 	li {

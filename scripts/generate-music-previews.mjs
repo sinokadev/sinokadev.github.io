@@ -27,6 +27,7 @@ const audioExtensions = new Set([
 	'.wma',
 	'.wv',
 ]);
+const videoExtensions = new Set(['.m4v', '.mov', '.mp4', '.ogv', '.webm']);
 
 const musicRoot = resolve(process.cwd(), 'public/music');
 const previewRoot = resolve(process.cwd(), 'public/music-previews');
@@ -190,7 +191,7 @@ async function collectFiles(dir) {
 			results.push(...(await collectFiles(fullPath)));
 		} else if (entry.isFile()) {
 			const ext = extname(entry.name).toLowerCase();
-			if (audioExtensions.has(ext)) {
+			if (audioExtensions.has(ext) || videoExtensions.has(ext)) {
 				results.push(fullPath);
 			}
 		}
@@ -209,19 +210,18 @@ export async function generatePreviews(force = false) {
 		console.warn('[music-previews] ffmpeg not found in PATH; video preview generation will be skipped.');
 	}
 
-	const audioFiles = await collectFiles(musicRoot);
-	if (audioFiles.length === 0) {
-		console.log('[music-previews] No audio files found in public/music.');
+	const mediaFiles = await collectFiles(musicRoot);
+	if (mediaFiles.length === 0) {
+		console.log('[music-previews] No media files found in public/music.');
 		return;
 	}
 
-	console.log(`[music-previews] Found ${audioFiles.length} audio file(s). Generating previews (1200x500)...`);
+	console.log(`[music-previews] Found ${mediaFiles.length} media file(s). Generating previews (1200x500)...`);
 
-	for (const audioPath of audioFiles) {
-		const relativePath = relative(musicRoot, audioPath);
+	for (const mediaPath of mediaFiles) {
+		const relativePath = relative(musicRoot, mediaPath);
 		const folderPath = dirname(relativePath);
-		const folder = folderPath === '.' ? '기타' : folderPath.split(sep).join('/');
-		const ext = extname(audioPath).toLowerCase();
+		const ext = extname(mediaPath).toLowerCase();
 		const baseName = relativePath.slice(0, -ext.length);
 
 		const outDir = join(previewRoot, folderPath);
@@ -231,13 +231,28 @@ export async function generatePreviews(force = false) {
 
 		const pngPath = join(previewRoot, `${baseName}.png`);
 		const mp4Path = join(previewRoot, `${baseName}.mp4`);
-		const audioStat = statSync(audioPath);
+		const mediaStat = statSync(mediaPath);
+		const isVideo = videoExtensions.has(ext);
+
+		if (isVideo) {
+			const isPosterOutdated = !existsSync(pngPath) || statSync(pngPath).mtimeMs < mediaStat.mtimeMs;
+			if (hasFfmpeg && (force || isPosterOutdated)) {
+				const cmd = `ffmpeg -y -ss 0.5 -i "${mediaPath}" -frames:v 1 -vf "scale=1200:-2" "${pngPath}"`;
+				try {
+					execSync(cmd, { stdio: 'ignore' });
+					console.log(`[music-previews] Created video poster: ${relative(previewRoot, pngPath)}`);
+				} catch (err) {
+					console.error(`[music-previews] Failed to create video poster for ${relativePath}:`, err.message);
+				}
+			}
+			continue;
+		}
 
 		// 1. Generate PNG Cover (1200x500)
 		let needImage = force;
 		if (!needImage && existsSync(pngPath)) {
 			const pngStat = statSync(pngPath);
-			if (pngStat.mtimeMs < audioStat.mtimeMs) {
+			if (pngStat.mtimeMs < mediaStat.mtimeMs) {
 				needImage = true;
 			}
 		} else if (!existsSync(pngPath)) {
@@ -247,7 +262,7 @@ export async function generatePreviews(force = false) {
 		if (needImage) {
 			const title = relativePath.split(sep).pop().slice(0, -ext.length);
 			const trackMeta = musicTrackMetadata[relativePath];
-			const date = resolveTrackDate(audioPath, trackMeta);
+			const date = resolveTrackDate(mediaPath, trackMeta);
 
 			const svg = createCoverSvg({ title, date, width: 1200, height: 500 });
 			await sharp(Buffer.from(svg)).png().toFile(pngPath);
@@ -260,7 +275,7 @@ export async function generatePreviews(force = false) {
 			let needVideo = force || needImage;
 			if (!needVideo && existsSync(mp4Path)) {
 				const mp4Stat = statSync(mp4Path);
-				if (mp4Stat.mtimeMs < audioStat.mtimeMs) {
+				if (mp4Stat.mtimeMs < mediaStat.mtimeMs) {
 					needVideo = true;
 				}
 			} else if (!existsSync(mp4Path)) {
@@ -268,7 +283,7 @@ export async function generatePreviews(force = false) {
 			}
 
 			if (needVideo) {
-				const cmd = `ffmpeg -y -loop 1 -i "${pngPath}" -i "${audioPath}" -c:v libx264 -tune stillimage -preset veryfast -pix_fmt yuv420p -c:a aac -b:a 192k -shortest -movflags +faststart "${mp4Path}"`;
+				const cmd = `ffmpeg -y -loop 1 -i "${pngPath}" -i "${mediaPath}" -c:v libx264 -tune stillimage -preset veryfast -pix_fmt yuv420p -c:a aac -b:a 192k -shortest -movflags +faststart "${mp4Path}"`;
 				try {
 					execSync(cmd, { stdio: 'ignore' });
 					console.log(`[music-previews] Created video: ${relative(previewRoot, mp4Path)}`);
