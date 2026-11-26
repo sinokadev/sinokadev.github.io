@@ -4,7 +4,7 @@ import { basename, dirname, extname, join, relative, resolve, sep } from 'node:p
 import { musicFolderMetadata, musicTrackMetadata, type MusicMetadata } from '../data/musicMetadata';
 import { musicEmbeds } from '../data/musicEmbeds';
 
-export const AUDIO_EXTENSIONS = new Set([
+export const MEDIA_EXTENSIONS = new Set([
 	'.3gp',
 	'.aac',
 	'.amr',
@@ -20,8 +20,11 @@ export const AUDIO_EXTENSIONS = new Set([
 	'.mka',
 	'.mp3',
 	'.mp4',
+	'.m4v',
+	'.mov',
 	'.oga',
 	'.ogg',
+	'.ogv',
 	'.opus',
 	'.spx',
 	'.tta',
@@ -30,6 +33,8 @@ export const AUDIO_EXTENSIONS = new Set([
 	'.wma',
 	'.wv',
 ]);
+
+export const VIDEO_EXTENSIONS = new Set(['.mp4', '.m4v', '.mov', '.ogv', '.webm']);
 
 export type MusicFile = {
 	id: string;
@@ -50,6 +55,7 @@ export type MusicFile = {
 	videoSrc?: string;
 	imageSrc?: string;
 	isMidi: boolean;
+	isVideo: boolean;
 };
 
 export type MusicFolder = {
@@ -142,6 +148,17 @@ export function getAudioMimeType(extension: string): string {
 			return 'audio/aiff';
 		default:
 			return 'audio/mpeg';
+	}
+}
+
+export function getVideoMimeType(extension: string): string {
+	switch (extension.toLowerCase()) {
+		case '.webm': return 'video/webm';
+		case '.ogv': return 'video/ogg';
+		case '.mov': return 'video/quicktime';
+		case '.m4v':
+		case '.mp4':
+		default: return 'video/mp4';
 	}
 }
 
@@ -245,7 +262,7 @@ export async function getMusicData(): Promise<MusicData> {
 				}
 
 				const extension = extname(entry.name).toLowerCase();
-				if (!entry.isFile() || !AUDIO_EXTENSIONS.has(extension)) continue;
+				if (!entry.isFile() || !MEDIA_EXTENSIONS.has(extension)) continue;
 
 				const relativePath = relative(musicRoot, fullPath);
 				const folderPath = dirname(relativePath);
@@ -254,7 +271,9 @@ export async function getMusicData(): Promise<MusicData> {
 				const baseNameWithoutExt = entry.name.slice(0, -extension.length);
 
 				// Slug for page URL: folder/track_basename
-				const slug = folderPath === '.' ? baseNameWithoutExt : `${folderPath.split(sep).join('/')}/${baseNameWithoutExt}`;
+				const isVideo = VIDEO_EXTENSIONS.has(extension);
+				const slugName = isVideo ? entry.name : baseNameWithoutExt;
+				const slug = folderPath === '.' ? slugName : `${folderPath.split(sep).join('/')}/${slugName}`;
 				const permalink = `/music/${slug.split('/').map(encodeURIComponent).join('/')}`;
 				const embedUrl = `${permalink}/embed`;
 
@@ -288,7 +307,7 @@ export async function getMusicData(): Promise<MusicData> {
 					embedUrl,
 					src: `/music/${relativePath.split(sep).map(encodeURIComponent).join('/')}`,
 					format: extension.slice(1).toUpperCase(),
-					mimeType: getAudioMimeType(extension),
+					mimeType: isVideo ? getVideoMimeType(extension) : getAudioMimeType(extension),
 					folder,
 					folderSlug,
 					relativePath,
@@ -298,6 +317,7 @@ export async function getMusicData(): Promise<MusicData> {
 					videoSrc,
 					imageSrc,
 					isMidi,
+					isVideo,
 				};
 
 				allTracks.push(track);

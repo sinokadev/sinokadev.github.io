@@ -1,5 +1,6 @@
 ---
 import AudioPlayer from '../../../components/AudioPlayer.astro';
+import VideoPlayer from '../../../components/VideoPlayer.astro';
 import { getMusicData, type MusicFile } from '../../../lib/music';
 
 export async function getStaticPaths() {
@@ -112,7 +113,9 @@ const { track } = Astro.props;
 					sinoka.dev ↗
 				</a>
 			</div>
-			{track.isMidi ? (
+			{track.isVideo ? (
+				<VideoPlayer src={track.src} type={track.mimeType} />
+			) : track.isMidi ? (
 				<div class="midi-box">
 					<a href={track.src} download class="midi-link">MIDI 파일 다운로드</a>
 				</div>

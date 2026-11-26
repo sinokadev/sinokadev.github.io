@@ -1,5 +1,6 @@
 ---
 import AudioPlayer from '../components/AudioPlayer.astro';
+import VideoPlayer from '../components/VideoPlayer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import MusicEntryHeading from '../components/MusicEntryHeading.astro';
 import Layout from '../layouts/Layout.astro';
@@ -49,7 +50,9 @@ const {
 								<ul>
 									{files.map((file) => (
 										<li>
-											{file.isMidi ? (
+											{file.isVideo ? (
+												<VideoPlayer src={file.src} type={file.mimeType} title={file.name} description={file.description} />
+											) : file.isMidi ? (
 												<>
 													{file.date && <p class="music-date"><FormattedDate date={file.date} /></p>}
 													<p class="download-title">
